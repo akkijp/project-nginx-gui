@@ -4,10 +4,12 @@ var fs = remote.require('fs');
 var exec = remote.require('child_process').exec;
 
 var ECT = remote.require('ect');
-
 var $ = require("./lib/js/jquery-2.1.4.min.js");
 
-$("#nginx_start").on("click", function(){
+var nginx = nginx || {}
+
+
+nginx.start = function(){
   exec('cp ./template/* ./cache/', function(err, stdout, stderr){
     console.log("Copy")
   })
@@ -17,7 +19,7 @@ $("#nginx_start").on("click", function(){
   var out = renderer.render('nginx.conf.ect', data);
   fs.writeFile('./cache/nginx.conf', out , function (err) {
     if (err) { throw err; }
-        console.log ('Save');
+    console.log ('Save');
   });
 
   exec('nginx -p `pwd` -c ./cache/nginx.conf', function(err, stdout, stderr){
@@ -25,9 +27,19 @@ $("#nginx_start").on("click", function(){
   });
 
   console.log("nginx_start");
-});
-$("#nginx_stop").on("click", function(){
+};
+
+
+nginx.stop = function(){
   exec('nginx -s stop', function(err, stdout, stderr){
     console.log('server stoped!');
   });
+};
+
+
+$("#nginx_start").on("click", function(){
+  nginx.start();
+});
+$("#nginx_stop").on("click", function(){
+  nginx.stop();
 });
