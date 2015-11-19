@@ -13,10 +13,17 @@
 <body>
 <h1 class="mb20">Hello, Nginx GUI!</h1>
 
-<div class="cf">
+<div class="cf mb30">
   <div class="w50p fl tc"><a id="nginx_start" class="btn btn-primary btn-lg">nginx start</a></div>
   <div class="w50p fl tc"><a id="nginx_stop" class="btn btn-default btn-lg">nginx stop</a></div>
 </div>
+
+<form action="">
+  <textarea id="console" name="log" readonly></textarea>
+</form>
+<style>
+  textarea{width: 100%;height:100px;}
+</style>
 
 <script src="./index.js"></script>
 </body>
