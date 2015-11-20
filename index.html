@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
 <title>Electron Read Us</title>
@@ -11,20 +11,23 @@
 </style>
 </head>
 <body>
-<h1 class="mb20">Hello, Nginx GUI!</h1>
+<div id="wrapper" class="container">
 
-<div class="cf mb30">
-  <div class="w50p fl tc"><a id="nginx_start" class="btn btn-primary btn-lg">nginx start</a></div>
-  <div class="w50p fl tc"><a id="nginx_stop" class="btn btn-default btn-lg">nginx stop</a></div>
+  <div id="operation" class="cf">
+  <h1 class="mb20">Hello, Nginx GUI!</h1>
+  <div class="cf mb30">
+    <div class="w50p fl tc"><a id="nginx_start" class="btn btn-primary btn-lg">nginx start</a></div>
+    <div class="w50p fl tc"><a id="nginx_stop" class="btn btn-default btn-lg">nginx stop</a></div>
+  </div>
+  </div>
+
+  <div id="console" class="cf">
+  <form action="">
+    <textarea name="log" readonly></textarea>
+  </form>
+  </div>
+
 </div>
-
-<form action="">
-  <textarea id="console" name="log" readonly></textarea>
-</form>
-<style>
-  textarea{width: 100%;height:100px;}
-</style>
-
 <script src="./index.js"></script>
 </body>
 </html>

@@ -13,6 +13,33 @@ var $      = require("./lib/js/jquery-2.1.4.min.js");
 
 
 /* ---------------------------
+  init
+----------------------------- */
+// $(function(){
+//   var w_width  = parseInt($(window).width());
+//   var w_height = parseInt($(window).height());
+//   var b_width  = parseInt($(".container").css("border"));
+
+//   $(".container").css({
+//     width: w_width - b_width*2,
+//     height: w_height - b_width*2,
+//   });
+
+//   $(window).resize(function(){
+//     var w_width  = parseInt($(window).width());
+//     var w_height = parseInt($(window).height());
+//     var b_width  = parseInt($(".container").css("border"));
+
+//     $(".container").css({
+//       width: w_width - b_width*2,
+//       height: w_height - b_width*2,
+//     });
+//   });
+
+// })
+
+
+/* ---------------------------
   nginx
 ----------------------------- */
 var nginx = nginx || {}
@@ -54,9 +81,9 @@ var logger = logger || {};
 logger.puts = function(log){
 
   console.log(log);
-  $("#console").text( $("#console").text()+"\n"+log );
+  $("#console textarea").text( $("#console textarea").text()+"\n"+log );
 
-  var psconsole = $('#console');
+  var psconsole = $("#console textarea");
   psconsole.scrollTop(
       psconsole[0].scrollHeight - psconsole.height()
   );
