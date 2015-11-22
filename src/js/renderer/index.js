@@ -9,7 +9,7 @@ var util   = remote.require("util");
 var exec   = remote.require('child_process').exec;
 
 var ECT    = remote.require('ect');
-var $      = require("./lib/js/jquery-2.1.4.min.js");
+var $      = require("./js/renderer/jquery-2.1.4.min.js");
 
 
 /* ---------------------------

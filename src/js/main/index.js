@@ -2,7 +2,9 @@
 // http://qiita.com/Quramy/items/a4be32769366cfe55778
 
 var app = require('app');
-var BrowserWindow = require('browser-window');
+var path = require('path');
+const BrowserWindow = require('electron').BrowserWindow;
+
 
 require('crash-reporter').start();
 
@@ -16,10 +18,21 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
 
   // ブラウザ(Chromium)の起動, 初期画面のロード
-  mainWindow = new BrowserWindow({width: 40*13, height: 30*13});
-  mainWindow.loadUrl('file://' + __dirname + '/index.html');
+  mainWindow = new BrowserWindow({
+    width: 40*13,
+    height: 30*13,
+    show: false,
+    // resizable: false
+  });
+
+  var filePath = path.join( __dirname, '/../../index.html' );
+  mainWindow.loadUrl('file://' + filePath);
+
+  console.log( filePath);
 
   mainWindow.on('closed', function() {
     mainWindow = null;
   });
+
+  mainWindow.show();
 });
