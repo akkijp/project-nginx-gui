@@ -1,4 +1,4 @@
-'use strict';
+
 
 /* ---------------------------
   common
@@ -11,6 +11,9 @@ var exec   = remote.require('child_process').exec;
 var ECT    = remote.require('ect');
 var $      = require("./js/renderer/jquery-2.1.4.min.js");
 
+var app = remote.require('app');
+var path = remote.require('path');
+const BrowserWindow = remote.require('electron').BrowserWindow;
 
 /* ---------------------------
   init
@@ -120,4 +123,19 @@ $("#nginx_start").on("click", function(){
 });
 $("#nginx_stop").on("click", function(){
   nginx.stop();
+});
+var settingsWindow = global.sessionStorage["settingsWindow"] = null
+$("#settings").on("click", () => {
+  settingsWindow = new BrowserWindow({
+    width: 40*13,
+    height: 30*13,
+    show: false,
+    // resizable: false
+  });
+  var filePath = path.join( __dirname, 'settings.html' );
+  settingsWindow.loadUrl('file://' + filePath);
+  settingsWindow.on('closed', function() {
+    settingsWindow = null;
+  });
+  settingsWindow.show();
 });

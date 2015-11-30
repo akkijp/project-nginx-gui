@@ -5,10 +5,9 @@ var app = require('app');
 var path = require('path');
 const BrowserWindow = require('electron').BrowserWindow;
 
-
 require('crash-reporter').start();
 
-var mainWindow = null;
+var root = global.root = path.join( __dirname, '/../../' );
 
 app.on('window-all-closed', function() {
   if (process.platform != 'darwin')
@@ -16,6 +15,7 @@ app.on('window-all-closed', function() {
 });
 
 app.on('ready', function() {
+  var mainWindow = null;
 
   // ブラウザ(Chromium)の起動, 初期画面のロード
   mainWindow = new BrowserWindow({
@@ -25,7 +25,7 @@ app.on('ready', function() {
     // resizable: false
   });
 
-  var filePath = path.join( __dirname, '/../../index.html' );
+  var filePath = path.join( root, 'index.html' );
   mainWindow.loadUrl('file://' + filePath);
 
   console.log( filePath);
