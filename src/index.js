@@ -7,7 +7,7 @@ const BrowserWindow = require('electron').BrowserWindow;
 
 require('crash-reporter').start();
 
-var root = global.root = path.join( __dirname, '/../../' );
+var root = global.root = path.join( __dirname, "/" );
 
 app.on('window-all-closed', function() {
   if (process.platform != 'darwin')
@@ -25,7 +25,7 @@ app.on('ready', function() {
     // resizable: false
   });
 
-  var filePath = path.join( root, 'index.html' );
+  var filePath = path.join( root, 'main.html' );
   mainWindow.loadUrl('file://' + filePath);
 
   console.log( filePath);

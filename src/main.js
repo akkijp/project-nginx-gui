@@ -8,38 +8,12 @@ var fs     = remote.require('fs');
 var util   = remote.require("util");
 var exec   = remote.require('child_process').exec;
 
+var $      = require("./js/lib/jquery-2.1.4.min.js");
 var ECT    = remote.require('ect');
-var $      = require("./js/renderer/jquery-2.1.4.min.js");
-
-var app = remote.require('app');
-var path = remote.require('path');
-const BrowserWindow = remote.require('electron').BrowserWindow;
 
 /* ---------------------------
   init
 ----------------------------- */
-// $(function(){
-//   var w_width  = parseInt($(window).width());
-//   var w_height = parseInt($(window).height());
-//   var b_width  = parseInt($(".container").css("border"));
-
-//   $(".container").css({
-//     width: w_width - b_width*2,
-//     height: w_height - b_width*2,
-//   });
-
-//   $(window).resize(function(){
-//     var w_width  = parseInt($(window).width());
-//     var w_height = parseInt($(window).height());
-//     var b_width  = parseInt($(".container").css("border"));
-
-//     $(".container").css({
-//       width: w_width - b_width*2,
-//       height: w_height - b_width*2,
-//     });
-//   });
-
-// })
 
 
 /* ---------------------------
@@ -116,26 +90,15 @@ logger.fatal = function(){
 
 }
 
-
-
+/* ---------------------------
+  bind
+----------------------------- */
 $("#nginx_start").on("click", function(){
   nginx.start();
 });
 $("#nginx_stop").on("click", function(){
   nginx.stop();
 });
-var settingsWindow = global.sessionStorage["settingsWindow"] = null
-$("#settings").on("click", () => {
-  settingsWindow = new BrowserWindow({
-    width: 40*13,
-    height: 30*13,
-    show: false,
-    // resizable: false
-  });
-  var filePath = path.join( __dirname, 'settings.html' );
-  settingsWindow.loadUrl('file://' + filePath);
-  settingsWindow.on('closed', function() {
-    settingsWindow = null;
-  });
-  settingsWindow.show();
+$("#settings").on("click", function(){
+
 });
