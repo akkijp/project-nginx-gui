@@ -10,9 +10,9 @@
   "author": "Kosuke Akizuki",
   "license": "MIT",
   "devDependencies": {
-    "ect": "^0.5.9"
   },
   "dependencies": {
+    "ect": "^0.5.9",
     "fs-extra": "^0.26.2"
   }
 }

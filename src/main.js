@@ -15,12 +15,26 @@ var ECT     = remote.require('ect');
 // from https://github.com/jprichardson/node-fs-extra
 var fs      = remote.require('fs-extra');
 
+
+var saveSettings = function(){
+  var port = $(':text[name="port"]').val();
+  var root = $(':text[name="root"]').val();
+  fs.writeFile("settings.json", JSON.stringify({
+    "port": port,
+    "root": root
+  }));
+};
+
+var readSettings = function(){
+  return JSON.parse(fs.readFileSync("settings.json", 'utf8'));
+};
 /* ---------------------------
   init
 ----------------------------- */
 (function(){
-  var port = $(':text[name="port"]').val(8080);
-  var root = $(':text[name="root"]').val(process.env.HOME);
+  var json = readSettings()
+  var port = $(':text[name="port"]').val(json.port);
+  var root = $(':text[name="root"]').val(json.root);
 })()
 
 /* ---------------------------
@@ -71,6 +85,7 @@ nginx.start = function(){
   copySettings()
     .then(writeCustomSettings)
     .then(startNginx)
+    .then(saveSettings)
 
 };
 
