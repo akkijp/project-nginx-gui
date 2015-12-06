@@ -22,25 +22,42 @@ var ECT    = remote.require('ect');
 var nginx = nginx || {}
 
 nginx.start = function(){
-  exec('cp ./template/* ./cache/', function(err, stdout, stderr){
-    if (err) { throw err; }
-    logger.debug("Copy")
-  })
 
-  var renderer = ECT({ root : __dirname + '/template' });
-  var data = { pwd: 'Hello, World!' };
-  var out = renderer.render('nginx.conf.ect', data);
-  fs.writeFile('./cache/nginx.conf', out , function (err) {
-    if (err) { throw err; }
-    logger.debug('Save');
-  });
+  var copySettings = function(){
+    var d = new $.Deferred;
+    exec('cp ./template/* ./cache/', function(err, stdout, stderr){
+      if (err) { throw err; }
+      d.resolve();
+    });
+    return d.promise();
+  }
 
-  exec('nginx -p `pwd` -c ./cache/nginx.conf', function(err, stdout, stderr){
-    if (err) { throw err; }
-    console.log('server started!');
-  });
+  var writeCustomSettings = function(){
+    var d = new $.Deferred;
+    var renderer = ECT({ root : __dirname + '/template' });
+    var data = { pwd: 'Hello, World!' };
+    var out = renderer.render('nginx.conf.ect', data);
+    fs.writeFile('./cache/nginx.conf', out , function (err) {
+      if (err) { throw err; }
+      d.resolve();
+    });
+    return d.promise();
+  }
 
-  logger.debug("nginx_start");
+  var startNginx = function(){
+    var d = new $.Deferred;
+    exec('nginx -p `pwd` -c ./cache/nginx.conf', function(err, stdout, stderr){
+      if (err) { throw err; }
+      logger.debug('nginx start!');
+      d.resolve();
+    });
+    return d.promise();
+  }
+
+  copySettings()
+    .then(writeCustomSettings)
+    .then(startNginx)
+
 };
 
 
@@ -64,7 +81,7 @@ logger.puts = function(log){
   psconsole.scrollTop(
       psconsole[0].scrollHeight - psconsole.height()
   );
-}
+};
 logger.debug = function(){
   // 可変長引数を処理
   var args = [];
@@ -76,19 +93,19 @@ logger.debug = function(){
 
   var log = util.format("[%s] [%s] [%s] %s", dt.toString(), "debug", "nginx", args);
   logger.puts(log)
-}
+};
 logger.info = function(){
 
-}
+};
 logger.warn = function(){
 
-}
+};
 logger.error = function(){
 
-}
+};
 logger.fatal = function(){
 
-}
+};
 
 /* ---------------------------
   bind
