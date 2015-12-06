@@ -32,9 +32,17 @@ var readSettings = function(){
   init
 ----------------------------- */
 (function(){
-  var json = readSettings()
-  var port = $(':text[name="port"]').val(json.port);
-  var root = $(':text[name="root"]').val(json.root);
+  // check file exists
+  fs.access("settings.json", fs.R_OK | fs.W_OK, function(err){
+    if(err){
+      $(':text[name="port"]').val(8080);
+      $(':text[name="root"]').val(process.env.HOME);
+    }else{
+      var json = readSettings()
+      $(':text[name="port"]').val(json.port);
+      $(':text[name="root"]').val(json.root);
+    }
+  })
 })()
 
 /* ---------------------------
