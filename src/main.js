@@ -72,6 +72,15 @@ nginx.start = function(){
     return d.promise();
   }
 
+  var stopNginx = function(){
+    var d = new $.Deferred;
+    exec('nginx -s stop', function(err, stdout, stderr){
+      // if (err) { throw err; }
+      d.resolve();
+    });
+    return d.promise();
+  }
+
   var startNginx = function(){
     var d = new $.Deferred;
     exec('nginx -p `pwd` -c ./cache/nginx.conf', function(err, stdout, stderr){
@@ -84,6 +93,7 @@ nginx.start = function(){
 
   copySettings()
     .then(writeCustomSettings)
+    .then(stopNginx)
     .then(startNginx)
     .then(saveSettings)
 
