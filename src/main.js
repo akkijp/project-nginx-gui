@@ -54,7 +54,7 @@ nginx.start = function(){
 
   var copySettings = function(){
     var d = new $.Deferred;
-    fs.copy('./template/', './cache/', function (err) {
+    fs.copy('./template/', path.join(process.env.HOME, '/.nginx-gui.conf.d/'), function (err) {
       if (err) return console.error(err)
       d.resolve();
     }); // copies directory, even if it has subdirectories or files
@@ -63,7 +63,7 @@ nginx.start = function(){
 
   var writeCustomSettings = function(){
     var d = new $.Deferred;
-    var renderer = ECT({ root : __dirname + '/template' });
+    var renderer = ECT({ root : path.join(__dirname, '/template/') });
 
     var port = $(':text[name="port"]').val();
     var root = $(':text[name="root"]').val();
@@ -73,7 +73,8 @@ nginx.start = function(){
       "root": root
     };
     var out = renderer.render('nginx.conf.ect', data);
-    fs.writeFile('./cache/nginx.conf', out , function (err) {
+    var config_path = path.join(process.env.HOME, '/.nginx-gui.conf.d/nginx.conf')
+    fs.writeFile(config_path, out , function (err) {
       if (err) { throw err; }
       d.resolve();
     });
@@ -91,7 +92,8 @@ nginx.start = function(){
 
   var startNginx = function(){
     var d = new $.Deferred;
-    exec('nginx -p `pwd` -c ./cache/nginx.conf', function(err, stdout, stderr){
+    var command = "nginx -p `pwd` -c "+path.join(process.env.HOME, '/.nginx-gui.conf.d/nginx.conf')
+    exec(command, function(err, stdout, stderr){
       if (err) { throw err; }
       logger.debug('nginx start!');
       d.resolve();
