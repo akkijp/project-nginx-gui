@@ -11,5 +11,8 @@
   "license": "MIT",
   "devDependencies": {
     "ect": "^0.5.9"
+  },
+  "dependencies": {
+    "fs-extra": "^0.26.2"
   }
 }

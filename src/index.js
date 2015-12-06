@@ -19,8 +19,8 @@ app.on('ready', function() {
 
   // ブラウザ(Chromium)の起動, 初期画面のロード
   mainWindow = new BrowserWindow({
-    width: 40*13,
-    height: 30*13,
+    width: 40*14,
+    height: 30*14,
     show: false,
     // resizable: false
   });

@@ -33,7 +33,7 @@ http {
     #gzip  on;
 
     server {
-        listen       8080;
+        listen       <%- @port %>;
         server_name  localhost;
 
         #charset koi8-r;
@@ -41,7 +41,7 @@ http {
         #access_log  logs/host.access.log  main;
 
         location / {
-            root   html;
+            root   <%- @root %>;
             index  index.html index.htm;
         }
 
@@ -115,4 +115,3 @@ http {
     #}
 
 }
-

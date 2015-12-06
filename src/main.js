@@ -3,18 +3,25 @@
 /* ---------------------------
   common
 ----------------------------- */
-var remote = require('remote');
-var fs     = remote.require('fs');
-var util   = remote.require("util");
-var exec   = remote.require('child_process').exec;
+var remote  = require('remote');
+var util    = remote.require("util");
+var path    = remote.require("path");
+var process = remote.require("process");
+var exec    = remote.require('child_process').exec;
 
-var $      = require("./js/lib/jquery-2.1.4.min.js");
-var ECT    = remote.require('ect');
+var $       = require("./js/lib/jquery-2.1.4.min.js");
+var ECT     = remote.require('ect');
+
+// from https://github.com/jprichardson/node-fs-extra
+var fs      = remote.require('fs-extra');
 
 /* ---------------------------
   init
 ----------------------------- */
-
+(function(){
+  var port = $(':text[name="port"]').val(8080);
+  var root = $(':text[name="root"]').val(process.env.HOME);
+})()
 
 /* ---------------------------
   nginx
@@ -25,17 +32,24 @@ nginx.start = function(){
 
   var copySettings = function(){
     var d = new $.Deferred;
-    exec('cp ./template/* ./cache/', function(err, stdout, stderr){
-      if (err) { throw err; }
+    fs.copy('./template/', './cache/', function (err) {
+      if (err) return console.error(err)
       d.resolve();
-    });
+    }); // copies directory, even if it has subdirectories or files
     return d.promise();
   }
 
   var writeCustomSettings = function(){
     var d = new $.Deferred;
     var renderer = ECT({ root : __dirname + '/template' });
-    var data = { pwd: 'Hello, World!' };
+
+    var port = $(':text[name="port"]').val();
+    var root = $(':text[name="root"]').val();
+
+    var data = {
+      "port": port,
+      "root": root
+    };
     var out = renderer.render('nginx.conf.ect', data);
     fs.writeFile('./cache/nginx.conf', out , function (err) {
       if (err) { throw err; }

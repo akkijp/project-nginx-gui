@@ -51,14 +51,14 @@ html,body,#wrapper{
   operation
 ========================== */
 #operation{
-  height: 40%;
+  height: 50%;
 }
 
 /* =======================
   console
 ========================== */
 #console{
-  height: 60%;
+  height: 50%;
 }
 #console form,
 #console textarea{

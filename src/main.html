@@ -16,9 +16,25 @@
 
   <div id="operation" class="cf">
   <h1 class="mb20">Hello, Nginx GUI!</h1>
-  <div class="cf mb30">
-    <div class="w50p fl tc"><a id="nginx_start" class="btn btn-primary btn-lg">nginx start</a></div>
-    <div class="w50p fl tc"><a id="nginx_stop" class="btn btn-default btn-lg">nginx stop</a></div>
+  <div class="cf mb20">
+    <div class="fl mr20">
+      <div class="mb10"><a id="nginx_start" class="btn btn-primary btn-lg">nginx start</a></div>
+      <div class=""><a id="nginx_stop" class="btn btn-default btn-lg">nginx stop</a></div>
+    </div>
+    <div class="fl">
+      <form action="">
+        <table>
+          <tr class="mb10" style="height:40px">
+            <td class="tr">Port:</td>
+            <td><input type="text" name="port" size="30" maxlength="20"></td>
+          </tr>
+          <tr class="mb10" style="height:40px">
+            <td class="tr">Root:</td>
+            <td><input type="text" name="root" size="30" maxlength="20"></td>
+          </tr>
+        </table>
+      </form>
+    </div>
   </div>
   </div>
 
