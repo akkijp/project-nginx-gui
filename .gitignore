@@ -36,3 +36,5 @@ node_modules
 */cache/*
 *.asar
 settings.json
+electron-v0.35.4-darwin-x64
+*.app

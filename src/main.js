@@ -6,7 +6,6 @@
 var remote  = require('remote'),
     util    = remote.require("util"),
     path    = remote.require("path"),
-    process = remote.require("process"),
     exec    = remote.require('child_process').exec;
 
 var $       = require("./js/lib/jquery-2.1.4.min.js");
@@ -15,18 +14,20 @@ var ECT     = remote.require('ect');
 // from https://github.com/jprichardson/node-fs-extra
 var fs      = remote.require('fs-extra');
 
+var root = global.root = __dirname;
 
 var conf_path = path.join(process.env.HOME, '/.nginx-gui.conf.d/');
 
 var nginx_conf_dir = path.join(conf_path, '/nginx.d/');
-var app_conf_file   = path.join(conf_path, "settings.json");
+var app_conf_file  = path.join(conf_path, "settings.json");
+var template_dir   = path.join(__dirname, '/template/');
 
 var saveSettings = function(){
-  var port = $(':text[name="port"]').val();
-  var root = $(':text[name="root"]').val();
+  var doc_port = $(':text[name="port"]').val();
+  var doc_root = $(':text[name="root"]').val();
   fs.writeFile(app_conf_file, JSON.stringify({
-    "port": port,
-    "root": root
+    "port": doc_port,
+    "root": doc_root
   }));
 };
 
@@ -50,6 +51,16 @@ var readSettings = function(){
   })
 })()
 
+
+/* ---------------------------
+  Error handling
+  from http://www.yoheim.net/blog.php?q=20131102
+----------------------------- */
+process.on('uncaughtException', function(err) {
+    console.log(err);
+    logger.debug(err.toString());
+});
+
 /* ---------------------------
   nginx
 ----------------------------- */
@@ -59,7 +70,7 @@ nginx.start = function(){
 
   var copySettings = function(){
     var d = new $.Deferred;
-    fs.copy('./template/', nginx_conf_dir, function (err) {
+    fs.copy(template_dir, nginx_conf_dir, function (err) {
       if (err) return console.error(err)
       d.resolve();
     }); // copies directory, even if it has subdirectories or files
@@ -68,14 +79,14 @@ nginx.start = function(){
 
   var writeCustomSettings = function(){
     var d = new $.Deferred;
-    var renderer = ECT({ root : path.join(__dirname, '/template/') });
+    var renderer = ECT({ "root": template_dir });
 
-    var port = $(':text[name="port"]').val();
-    var root = $(':text[name="root"]').val();
+    var doc_port = $(':text[name="port"]').val();
+    var doc_root = $(':text[name="root"]').val();
 
     var data = {
-      "port": port,
-      "root": root
+      "port": doc_port,
+      "root": doc_root
     };
     var out = renderer.render('nginx.conf.ect', data);
     var config_path = path.join(nginx_conf_dir, 'nginx.conf')
@@ -83,12 +94,13 @@ nginx.start = function(){
       if (err) { throw err; }
       d.resolve();
     });
+    // d.resolve();
     return d.promise();
   };
 
   var stopNginx = function(){
     var d = new $.Deferred;
-    exec('nginx -s stop', function(err, stdout, stderr){
+    exec('/usr/local/bin/nginx -s stop', function(err, stdout, stderr){
       // if (err) { throw err; }
       d.resolve();
     });
@@ -97,7 +109,7 @@ nginx.start = function(){
 
   var startNginx = function(){
     var d = new $.Deferred;
-    var command = "nginx -p `pwd` -c "+path.join(nginx_conf_dir, 'nginx.conf')
+    var command = "/usr/local/bin/nginx -p `pwd` -c "+path.join(nginx_conf_dir, 'nginx.conf')
     exec(command, function(err, stdout, stderr){
       if (err) { throw err; }
       logger.debug('nginx start!');
@@ -116,7 +128,7 @@ nginx.start = function(){
 
 
 nginx.stop = function(){
-  exec('nginx -s stop', function(err, stdout, stderr){
+  exec('/usr/local/bin/nginx -s stop', function(err, stdout, stderr){
     if (err) { throw err; }
     logger.debug('server stoped!');
   });

@@ -1,16 +1,18 @@
 'use strict';
 // http://qiita.com/Quramy/items/a4be32769366cfe55778
 
-var app = require('app');
-var path = require('path');
-const BrowserWindow = require('electron').BrowserWindow;
+const electron      = require('electron');
+const app           = electron.app;
+const BrowserWindow = electron.BrowserWindow;
+const path          = require('path');
 
 require('crash-reporter').start();
 
 var root = global.root = path.join( __dirname, "/" );
 
+// Quit when all windows are closed and no other one is listening to this.
 app.on('window-all-closed', function() {
-  if (process.platform != 'darwin')
+  if (app.listeners('window-all-closed').length == 1)
     app.quit();
 });
 
@@ -32,6 +34,7 @@ app.on('ready', function() {
 
   mainWindow.on('closed', function() {
     mainWindow = null;
+    process.exit(0);
   });
 
   mainWindow.show();
