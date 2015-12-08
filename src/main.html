@@ -15,33 +15,61 @@
 <div id="wrapper" class="container">
 
   <div id="operation" class="cf">
-  <h1 class="mb20">Hello, Nginx GUI!</h1>
   <div class="cf mb20">
-    <div class="fl mr20">
-      <div class="mb10"><a id="nginx_start" class="btn btn-primary btn-lg">nginx start</a></div>
-      <div class=""><a id="nginx_stop" class="btn btn-default btn-lg">nginx stop</a></div>
+    <h1 class="fl ">Hello, Nginx GUI!</h1>
+    <style>
+#operation h1{
+  padding-top: 18px;
+  padding-left: 34px;
+}
+table.server_statuses td{
+  padding-top: 5px;
+  padding-right: 5px;
+}
+    </style>
+    <div class="fr mt10">
+      <table class="server_statuses">
+        <tr class="nginx_status">
+          <td>Nginx Server</td>
+          <td><img src="./images/icon_empty.png" alt=""></td>
+        </tr>
+        <tr class="mysql_status">
+          <td>MySQL Server</td>
+          <td><img src="./images/icon_green.png" alt=""></td>
+        </tr>
+        <tr class="php-fpm_status">
+          <td>php-fpm Server</td>
+          <td><img src="./images/icon_red.png" alt=""></td>
+        </tr>
+      </table>
     </div>
+  </div>
+  <div class="cf mb20">
     <div class="fl">
       <form action="">
         <table>
           <tr class="mb10" style="height:40px">
-            <td class="tr">Port: </td>
-            <td><input type="text" name="port" size="30" maxlength="5"></td>
+            <td class="tr">Port:&nbsp;</td>
+            <td><input type="text" name="port" size="32" maxlength="5"></td>
           </tr>
           <tr class="mb10" style="height:40px">
-            <td class="tr">Root: </td>
-            <td><input type="text" name="root" size="30"></td>
+            <td class="tr">Root:&nbsp;</td>
+            <td><input type="text" name="root" size="32"></td>
           </tr>
         </table>
       </form>
     </div>
+    <div class="fr">
+      <a id="nginx_btn" class="btn btn-primary btn-lg">Nginx Start</a>
+    </div>
   </div>
-  </div>
+  </div><!-- #operation -->
+
 
   <div id="console" class="cf">
-  <form action="">
-    <textarea name="log" readonly></textarea>
-  </form>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
   </div>
 
 </div>
