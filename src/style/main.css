@@ -53,6 +53,10 @@ html,body,#wrapper{
 #operation{
   height: 50%;
 }
+#operation input[type="text"]{
+  font-size: 18px;
+  padding: 3px;
+}
 
 /* =======================
   console
