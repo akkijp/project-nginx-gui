@@ -118,10 +118,21 @@ nginx.start = function(){
     return d.promise();
   };
 
+  var startPhpfpm = function(){
+    var d = new $.Deferred;
+    exec("/usr/local/sbin/php56-fpm start", function(err, stdout, stderr){
+      if (err) { throw err; }
+      logger.debug('php56-fpm start!');
+      d.resolve();
+    });
+    return d.promise();
+  }
+
   copySettings()
     .then(writeCustomSettings)
     .then(stopNginx)
     .then(startNginx)
+    .then(startPhpfpm)
     .then(saveSettings)
 
 };
@@ -131,6 +142,10 @@ nginx.stop = function(){
   exec('/usr/local/bin/nginx -s stop', function(err, stdout, stderr){
     if (err) { throw err; }
     logger.debug('server stoped!');
+  });
+  exec("/usr/local/sbin/php56-fpm stop", function(err, stdout, stderr){
+    if (err) { throw err; }
+    logger.debug('php56-fpm stoped!');
   });
 };
 
