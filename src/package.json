@@ -2,14 +2,15 @@
   "name": "nginx-gui",
   "version": "0.1.0",
   "description": "",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Kosuke Akizuki",
   "license": "MIT",
-  "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-install": "^0.6.0"
+  "dependencies": {
+    "ect": "^0.5.9",
+    "fs-extra": "^0.26.2"
   }
 }
