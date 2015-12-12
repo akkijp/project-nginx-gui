@@ -1,7 +1,9 @@
-var gulp = require("gulp");
+var gulp    = require("gulp");
+var install = require("gulp-install");
 
-gulp.task('hello', function(){
-  console.log("Hello world!");
+gulp.task('install', function(){
+  gulp.src(['./package.json', './src/package.json'])
+  .pipe(install());
 });
 
-gulp.task('default', ['hello']);
+gulp.task('default', ['install']);
