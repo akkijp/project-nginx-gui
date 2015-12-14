@@ -53,15 +53,25 @@ html,body,#wrapper{
 ========================== */
 #operation{
   height: 50%;
+
+  input[type="text"]{
+    font-size: 18px;
+    padding: 3px;
+  }
+  #nginx_btn{
+    padding: 21px;
+    font-size: 25px;
+  }
+  table.server_statuses td{
+    padding-top: 5px;
+    padding-right: 5px;
+  }
+  h1{
+    padding-top: 18px;
+    padding-left: 34px;
+  }
 }
-#operation input[type="text"]{
-  font-size: 18px;
-  padding: 3px;
-}
-#operation #nginx_btn{
-  padding: 21px;
-  font-size: 25px;
-}
+
 
 /* =======================
   console
