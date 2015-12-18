@@ -4,7 +4,7 @@ var gulp    = require("gulp"),
     cssnext = require('gulp-cssnext');
 
 gulp.task('install', function(){
-  gulp.src(['./package.json', './src/package.json'])
+  return gulp.src(['./package.json', './src/package.json'])
   .pipe(install());
 });
 

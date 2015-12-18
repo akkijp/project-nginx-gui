@@ -9,6 +9,11 @@ html,body,#wrapper{
   overflow: hidden;
   -webkit-user-select: none;
 }
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
 
 /* =======================
   utils
@@ -81,4 +86,22 @@ html,body,#wrapper{
   padding: 5px;
   border: 1px solid #aaa;
   border-radius: 5px;
+  -webkit-user-select: text;
+  display: flex;
+  // -webkit-flex-direction: row;
+  // -webkit-align-items: stretch;
+
+  #console_panel{
+      width: 100%;
+      display: block;
+  }
+
+  .red{color: #f44336;}
+  .blue{color: #2196f3;}
+  .gray{color: #7f8c8d;}
+  .green{color: #32cd32;}
+  .yellow{color: #ffd700;}
+  .skyblue{color: #00bcd4;}
+  .default{color: #000000;}
+
 }

@@ -33,9 +33,12 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
+.sass-cache
+
 */cache/*
 *.asar
 settings.json
 electron-v0.35.4-darwin-x64
 *.app
 src/style/main.css
+tmp
