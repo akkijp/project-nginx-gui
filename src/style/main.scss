@@ -52,6 +52,10 @@ html,body,#wrapper{
 
 .w50p{width: 50%;}
 .w33p{width: 33%;}
+.avoid-clicks{
+  pointer-events: none;
+  cursor: not-allowed;
+}
 
 /* =======================
   operation
@@ -83,13 +87,11 @@ html,body,#wrapper{
 ========================== */
 #console{
   height: 50%;
-  padding: 5px;
+  padding: 7px;
   border: 1px solid #aaa;
   border-radius: 5px;
   -webkit-user-select: text;
-  display: flex;
-  // -webkit-flex-direction: row;
-  // -webkit-align-items: stretch;
+  overflow: scroll;
 
   #console_panel{
       width: 100%;

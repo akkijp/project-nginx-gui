@@ -7,6 +7,8 @@ const app           = electron.app;
 const Menu          = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
 const path          = require('path');
+const exec          = require('child_process').exec
+const Promise       = require('promise');
 
 
 /*
@@ -203,6 +205,29 @@ require('crash-reporter').start();
 
 var root = global.root = path.join( __dirname, "/" );
 
+var server_stop = function(callback){
+  var promise1 = new Promise(function (resolve, reject) {
+    exec('/usr/local/bin/nginx -s stop', function(err, stdout, stderr){
+      if (err) reject(err);
+      else resolve();
+    });
+  });
+  var promise2 = new Promise(function (resolve, reject) {
+    exec("/usr/local/sbin/php56-fpm stop", function(err, stdout, stderr){
+      if (err) reject(err);
+      else resolve();
+    });
+  });
+  var promise3 = new Promise(function (resolve, reject) {
+    exec("/usr/local/bin/mysql.server stop", function(err, stdout, stderr){
+      if (err) reject(err);
+      else resolve();
+    });
+  });
+  return Promise.all([promise1, promise2, promise3])
+    .nodeify(callback)
+};
+
 // Quit when all windows are closed and no other one is listening to this.
 app.on('window-all-closed', function() {
   if (app.listeners('window-all-closed').length == 1)
@@ -227,7 +252,9 @@ app.on('ready', function() {
 
   mainWindow.on('closed', function() {
     mainWindow = null;
-    process.exit(0);
+    server_stop(function(){
+      process.exit(0);
+    });
   });
 
   mainWindow.show();

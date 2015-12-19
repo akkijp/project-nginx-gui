@@ -41,4 +41,6 @@ settings.json
 electron-v0.35.4-darwin-x64
 *.app
 src/style/main.css
+src/compat.js
+src/main.js
 tmp

@@ -13,7 +13,7 @@ which = require('npm-which')(__dirname) # __dirname often good enough
 
 root = global.root = __dirname;
 
-conf_path = path.join(process.env.HOME, '/.nginx-gui.conf.d/');
+conf_path = path.join(process.env.HOME, '/.nginx-gui.d/');
 
 nginx_conf_dir = path.join(conf_path, '/nginx.d/');
 app_conf_file  = path.join(conf_path, "settings.json");
@@ -60,32 +60,43 @@ class FileNotFoundError extends BaseError
 #     __stack[1].getLineNumber();
 # });
 
+console_scroll_top = ->
+  $psconsole = $("#console");
+  $psconsole.scrollTop($psconsole[0].scrollHeight - $psconsole.height())
+console_scroll_top()
+
 logger = {
+  _execute: (meg, level) ->
+    dt = new Date();
+    switch level
+      when "debug"
+        console.log("#{dt.toString()} #{meg}")
+        $console_html = $("<div class=\"line gray\">#{dt.toString()} #{meg}</div>")
+      when "success"
+        console.log("#{dt.toString()} %c#{meg}%c", 'color: green;', '')
+        $console_html = $("<div class=\"line green\">#{dt.toString()} #{meg}</div>")
+      when "info"
+        console.log("#{dt.toString()} %c#{meg}%c", 'color: #00bcd4;', '')
+        $console_html = $("<div class=\"line skyblue\">#{dt.toString()} #{meg}</div>")
+      when "warn"
+        console.log("#{dt.toString()} %c#{meg}%c", 'color: #ffd700;', '')
+        $console_html = $("<div class=\"line yellow\">#{dt.toString()} #{meg}</div>")
+      when "fatal"
+        console.error("#{dt.toString()} %c#{meg}%c", 'color: red;', '')
+        $console_html = $("<div class=\"line red\">#{dt.toString()} #{meg}</div>")
+    $("#console_panel").append($console_html)
+    console_scroll_top()
+
   debug: (meg) ->
-    dt = new Date();
-    console.log("#{dt.toString()} #{meg}")
-    $console_html = $("<div class=\"line gray\">#{dt.toString()} #{meg}</div>")
-    $("#console_panel").append($console_html)
+    logger._execute meg, "debug"
   success: (meg) ->
-    dt = new Date();
-    console.log("#{dt.toString()} %c#{meg}%c", 'color: green;', '')
-    $console_html = $("<div class=\"line green\">#{dt.toString()} #{meg}</div>")
-    $("#console_panel").append($console_html)
+    logger._execute meg, "success"
   info: (meg) ->
-    dt = new Date();
-    console.log("#{dt.toString()} %c#{meg}%c", 'color: #00bcd4;', '')
-    $console_html = $("<div class=\"line skyblue\">#{dt.toString()} #{meg}</div>")
-    $("#console_panel").append($console_html)
+    logger._execute meg, "info"
   warn: (meg) ->
-    dt = new Date();
-    console.log("#{dt.toString()} %c#{meg}%c", 'color: #ffd700;', '')
-    $console_html = $("<div class=\"line yellow\">#{dt.toString()} #{meg}</div>")
-    $("#console_panel").append($console_html)
+    logger._execute meg, "warn"
   fatal: (meg) ->
-    dt = new Date();
-    console.error("#{dt.toString()} %c#{meg}%c", 'color: red;', '')
-    $console_html = $("<div class=\"line red\">#{dt.toString()} #{meg}</div>")
-    $("#console_panel").append($console_html)
+    logger._execute meg, "fatal"
 }
 log = logger.debug # alias
 
@@ -113,95 +124,129 @@ pathToNginx   = which.sync('nginx')
 pathToPhpfpm  = which.sync('php56-fpm')
 pathToMysql   = which.sync('mysql.server')
 
-# nginx
-nginx = nginx || {}
-nginx.start = ->
-  d = new $.Deferred
-  command = "#{pathToNginx} -p `pwd` -c #{path.join(nginx_conf_dir, 'nginx.conf')}"
-  exec command, (err, stdout, stderr) ->
-    $nginx_status = $("#nginx_status img")
-    if err?
-      $nginx_status.attr("src", "./images/icon_red.png") if $nginx_status?
-      throw err
-    $nginx_status.attr("src", "./images/icon_green.png") if $nginx_status?
-    logger.debug('nginx start!')
-    d.resolve()
-  d.promise()
+class nginx
+  constructor: (@path, @port, @pid)->
+  set_path: (@path)->
+  set_port: (@port)->
+  set_pid:  (@pid)->
+  start: ()->
+    d = new $.Deferred
+    command = "#{pathToNginx} -p `pwd` -c #{path.join(nginx_conf_dir, 'nginx.conf')}"
+    exec command, (err, stdout, stderr) ->
+      $nginx_status = $("#nginx_status img")
+      if err?
+        $nginx_status.attr("src", "./images/icon_red.png") if $nginx_status?
+        throw err
+      $nginx_status.attr("src", "./images/icon_green.png") if $nginx_status?
+      logger.debug('nginx start!')
+      d.resolve()
+    d.promise()
+  stop: ()->
+    d = new $.Deferred
+    exec "#{pathToNginx} -s stop", (err, stdout, stderr) ->
+      $nginx_status = $("#nginx_status img")
+      if err?
+        $nginx_status.attr("src", "./images/icon_red.png") if $nginx_status?
+        throw err
+      $nginx_status.attr("src", "./images/icon_empty.png") if $nginx_status?
+      logger.debug('server stoped!')
+      d.resolve()
+    d.promise()
 
-nginx.stop = ->
-  d = new $.Deferred
-  exec "#{pathToNginx} -s stop", (err, stdout, stderr) ->
-    $nginx_status = $("#nginx_status img")
-    if err?
-      $nginx_status.attr("src", "./images/icon_red.png") if $nginx_status?
-      throw err
-    $nginx_status.attr("src", "./images/icon_empty.png") if $nginx_status?
-    logger.debug('server stoped!')
-    d.resolve()
-  d.promise()
+class phpfpm
+  constructor: (@path, @port, @pid)->
+  set_path: (@path)->
+  set_port: (@port)->
+  set_pid:  (@pid)->
+  start: ()->
+    d = new $.Deferred;
+    exec "#{pathToPhpfpm} start", (err, stdout, stderr) ->
+      $phpfpm_status = $("#php-fpm_status img")
+      if err?
+        $phpfpm_status.attr("src", "./images/icon_red.png") if $phpfpm_status?
+        throw err
+      $phpfpm_status.attr("src", "./images/icon_green.png") if $phpfpm_status?
+      logger.debug('php56-fpm start!')
+      d.resolve()
+    d.promise()
+  stop: ()->
+    d = new $.Deferred
+    exec "#{pathToPhpfpm} stop", (err, stdout, stderr) ->
+      $phpfpm_status = $("#php-fpm_status img")
+      if err?
+        $phpfpm_status.attr("src", "./images/icon_red.png") if $phpfpm_status?
+        throw err
+      $phpfpm_status.attr("src", "./images/icon_empty.png") if $phpfpm_status?
+      logger.debug('php56-fpm stoped!')
+      d.resolve()
+    d.promise()
 
-
-# php-fpm
-phpfpm = phpfpm || {}
-phpfpm.start = ->
-  d = new $.Deferred;
-  exec "#{pathToPhpfpm} start", (err, stdout, stderr) ->
-    $phpfpm_status = $("#php-fpm_status img")
-    if err?
-      $phpfpm_status.attr("src", "./images/icon_red.png") if $phpfpm_status?
-      throw err
-    $phpfpm_status.attr("src", "./images/icon_green.png") if $phpfpm_status?
-    logger.debug('php56-fpm start!')
-    d.resolve()
-  d.promise()
-
-phpfpm.stop = ->
-  d = new $.Deferred
-  exec "#{pathToPhpfpm} stop", (err, stdout, stderr) ->
-    $phpfpm_status = $("#php-fpm_status img")
-    if err?
-      $phpfpm_status.attr("src", "./images/icon_red.png") if $phpfpm_status?
-      throw err
-    $phpfpm_status.attr("src", "./images/icon_empty.png") if $phpfpm_status?
-    logger.debug('php56-fpm stoped!')
-    d.resolve()
-  d.promise()
-
-# mysql
-mysql = mysql || {}
-mysql.start = ->
-  d = new $.Deferred;
-  exec "#{pathToMysql} start", (err, stdout, stderr) ->
-    $mysql_status = $("#mysql_status img")
-    if err?
-      $mysql_status.attr("src", "./images/icon_red.png") if $mysql_status?
-      throw err
-    $mysql_status.attr("src", "./images/icon_green.png") if $mysql_status?
-    logger.debug('mysql start!')
-    d.resolve()
-  d.promise()
-
-mysql.stop = ->
-  d = new $.Deferred;
-  exec "#{pathToMysql} stop", (err, stdout, stderr) ->
-    $mysql_status = $("#mysql_status img")
-    if err?
-      $mysql_status.attr("src", "./images/icon_red.png") if $mysql_status?
-      throw err
-    $mysql_status.attr("src", "./images/icon_empty.png") if $mysql_status?
-    logger.debug('mysql stop!')
-    d.resolve()
-  d.promise()
+class mysql
+  constructor: (@path, @port, @pid)->
+  set_path: (@path)->
+  set_port: (@port)->
+  set_pid:  (@pid)->
+  start: ()->
+    d = new $.Deferred;
+    exec "#{pathToMysql} start", (err, stdout, stderr) ->
+      $mysql_status = $("#mysql_status img")
+      if err?
+        $mysql_status.attr("src", "./images/icon_red.png") if $mysql_status?
+        throw err
+      $mysql_status.attr("src", "./images/icon_green.png") if $mysql_status?
+      logger.debug('mysql start!')
+      d.resolve()
+    d.promise()
+  stop: ()->
+    d = new $.Deferred;
+    exec "#{pathToMysql} stop", (err, stdout, stderr) ->
+      $mysql_status = $("#mysql_status img")
+      if err?
+        $mysql_status.attr("src", "./images/icon_red.png") if $mysql_status?
+        throw err
+      $mysql_status.attr("src", "./images/icon_empty.png") if $mysql_status?
+      logger.debug('mysql stop!')
+      d.resolve()
+    d.promise()
 
 ###---------------------------
-  tasks
+  bind
 -----------------------------###
 
-window.ngx_start   = nginx.start
-window.ngx_stop    = nginx.stop
-window.phpf_start  = phpfpm.start
-window.phpf_stop   = phpfpm.stop
-window.mysql_start = mysql.start
-window.mysql_stop  = mysql.stop
+inc_nginx = new nginx()
+inc_phpf  = new phpfpm()
+inc_mysql = new mysql()
+
+window.ngx_start   = inc_nginx.start
+window.ngx_stop    = inc_nginx.stop
+window.phpf_start  = inc_phpf.start
+window.phpf_stop   = inc_phpf.stop
+window.mysql_start = inc_mysql.start
+window.mysql_stop  = inc_mysql.stop
+
+do ->
+  server_started = false
+  $("#nginx_btn").on "click", ->
+    $this = $(this)
+    if server_started
+      # server stop tasks
+      $this.addClass("avoid-clicks").addClass("active")
+      $.when(inc_nginx.stop(), inc_phpf.stop(), inc_mysql.stop()).then ->
+        $this.removeClass("btn-danger")
+          .addClass("btn-primary")
+          .text("Server Start")
+          .removeClass("avoid-clicks")
+          .removeClass("active")
+    else
+      # server start tasks
+      $this.addClass("avoid-clicks").addClass("active")
+      $.when(inc_nginx.start(), inc_phpf.start(), inc_mysql.start()).then ->
+        $this.removeClass("btn-primary")
+          .addClass("btn-danger")
+          .text("Server Stop")
+          .removeClass("avoid-clicks")
+          .removeClass("active")
+
+    server_started = !server_started
 
 "none"
