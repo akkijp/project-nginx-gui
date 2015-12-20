@@ -43,4 +43,6 @@ electron-v0.35.4-darwin-x64
 src/style/main.css
 src/compat.js
 src/main.js
+src/test.js
+src/test.coffee
 tmp
