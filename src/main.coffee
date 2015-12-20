@@ -83,15 +83,6 @@ class Settings
 
 settings = new Settings(app_conf_file)
 
-
-# settingsファイルがあれば、それを読み込み、なければデフォルトで作成
-do ->
-  fs.copy template_dir, conf_path, (err) ->
-    if err
-      return console.error(err)
-    console.log 'success!'
-    return
-
 # from http://qiita.com/ktty1220/items/c89a0101ab4a87311637
 # from http://stackoverflow.com/questions/11386492/accessing-line-number-in-v8-javascript-chrome-node-js
 # Object.defineProperty(global, '__stack', {
@@ -175,6 +166,7 @@ printStackTrace = (e) ->
 -----------------------------###
 process.on 'uncaughtException', (e) ->
   printStackTrace(e)
+
 
 ###---------------------------
   commands
@@ -269,22 +261,31 @@ class mysql
       d.resolve()
     d.promise()
 
+
+# settingsファイルがあれば、それを読み込み、なければデフォルトで作成
+do ->
+  fs.copy template_dir, conf_path, (err) ->
+    if err
+      return console.error(err)
+    console.log 'success!'
+    return
+
 ###---------------------------
   bind
 -----------------------------###
 
-inc_nginx = new nginx()
-inc_phpf  = new phpfpm()
-inc_mysql = new mysql()
-
-window.ngx_start   = inc_nginx.start
-window.ngx_stop    = inc_nginx.stop
-window.phpf_start  = inc_phpf.start
-window.phpf_stop   = inc_phpf.stop
-window.mysql_start = inc_mysql.start
-window.mysql_stop  = inc_mysql.stop
-
 do ->
+  inc_nginx = new nginx()
+  inc_phpf  = new phpfpm()
+  inc_mysql = new mysql()
+
+  window.ngx_start   = inc_nginx.start
+  window.ngx_stop    = inc_nginx.stop
+  window.phpf_start  = inc_phpf.start
+  window.phpf_stop   = inc_phpf.stop
+  window.mysql_start = inc_mysql.start
+  window.mysql_stop  = inc_mysql.stop
+
   server_started = false
   $("#nginx_btn").on "click", ->
     $this = $(this)
