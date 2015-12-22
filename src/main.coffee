@@ -41,6 +41,10 @@ class ArgumentError extends BaseError
   constructor: (@message) ->
     super @message
 
+class ExecuteError extends BaseError
+  constructor: (@message) ->
+    super @message
+
 class IOError extends BaseError
   constructor: (@message) ->
     super @message
@@ -60,7 +64,7 @@ class Settings
     fs.access c_path, fs.R_OK | fs.W_OK, (err) ->
       throw FileNotFoundError if err?
       fs.readFile c_path, 'utf8', (err, data) ->
-        throw new FileNotFoundError if err?
+        throw new IOError if err?
         json = JSON.parse data
         @config = _.extendOwn(@config, json)
 
@@ -188,7 +192,7 @@ class nginx
       $nginx_status = $("#nginx_status img")
       if err?
         $nginx_status.attr("src", "./images/icon_red.png") if $nginx_status?
-        throw err
+        throw new ExecuteError
       $nginx_status.attr("src", "./images/icon_green.png") if $nginx_status?
       logger.success('nginx start!')
       d.resolve()
@@ -199,7 +203,7 @@ class nginx
       $nginx_status = $("#nginx_status img")
       if err?
         $nginx_status.attr("src", "./images/icon_red.png") if $nginx_status?
-        throw err
+        throw new ExecuteError
       $nginx_status.attr("src", "./images/icon_empty.png") if $nginx_status?
       logger.success('server stoped!')
       d.resolve()
@@ -216,7 +220,7 @@ class phpfpm
       $phpfpm_status = $("#php-fpm_status img")
       if err?
         $phpfpm_status.attr("src", "./images/icon_red.png") if $phpfpm_status?
-        throw err
+        throw new ExecuteError
       $phpfpm_status.attr("src", "./images/icon_green.png") if $phpfpm_status?
       logger.success('php56-fpm start!')
       d.resolve()
@@ -227,7 +231,7 @@ class phpfpm
       $phpfpm_status = $("#php-fpm_status img")
       if err?
         $phpfpm_status.attr("src", "./images/icon_red.png") if $phpfpm_status?
-        throw err
+        throw new ExecuteError
       $phpfpm_status.attr("src", "./images/icon_empty.png") if $phpfpm_status?
       logger.success('php56-fpm stoped!')
       d.resolve()
@@ -244,7 +248,7 @@ class mysql
       $mysql_status = $("#mysql_status img")
       if err?
         $mysql_status.attr("src", "./images/icon_red.png") if $mysql_status?
-        throw err
+        throw new ExecuteError
       $mysql_status.attr("src", "./images/icon_green.png") if $mysql_status?
       logger.success('mysql start!')
       d.resolve()
@@ -255,7 +259,7 @@ class mysql
       $mysql_status = $("#mysql_status img")
       if err?
         $mysql_status.attr("src", "./images/icon_red.png") if $mysql_status?
-        throw err
+        throw new ExecuteError
       $mysql_status.attr("src", "./images/icon_empty.png") if $mysql_status?
       logger.success('mysql stop!')
       d.resolve()
@@ -264,11 +268,18 @@ class mysql
 
 # settingsファイルがあれば、それを読み込み、なければデフォルトで作成
 do ->
-  fs.copy template_dir, conf_path, (err) ->
-    if err
-      return console.error(err)
-    console.log 'success!'
-    return
+  # fs.copy template_dir, conf_path, (err) ->
+  #   if err
+  #     return console.error(err)
+  #   console.log 'success!'
+  #   return
+
+  root = settings.getConfig("root")
+  port = settings.getConfig("port")
+
+  $('input[name="root"]').val(root);
+  $('input[name="port"]').val(port);
+
 
 ###---------------------------
   bind
