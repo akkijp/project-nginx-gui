@@ -47,3 +47,5 @@ src/test.js
 src/test.coffee
 src/error.js
 tmp
+release
+cache

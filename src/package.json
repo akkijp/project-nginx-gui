@@ -12,6 +12,8 @@
   "dependencies": {
     "ect": "^0.5.9",
     "fs-extra": "^0.26.2",
+    "npm-which": "^2.0.0",
+    "promise": "^7.1.1",
     "underscore": "^1.8.3"
   }
 }

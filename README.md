@@ -23,6 +23,8 @@ nginx-gui start
 
 ```sh
 git clone https://github.com/k4zzk/nginx-gui.git && cd nginx-gui
+npm install
+gulp install
 gulp run
 ```
 
