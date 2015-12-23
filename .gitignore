@@ -45,4 +45,5 @@ src/compat.js
 src/main.js
 src/test.js
 src/test.coffee
+src/error.js
 tmp
