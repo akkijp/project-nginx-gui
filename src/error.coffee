@@ -28,11 +28,12 @@ class IOError extends BaseError
 class FileNotFoundError extends IOError
   constructor: (@message) ->
     super @message
+
 module.exports = {
-  BaseError: BaseError,
-  ArgumentError: ArgumentError,
-  ExecuteError: ExecuteError,
-  IOError: IOError,
-  ArgumentError: ArgumentError,
+  BaseError:         BaseError,
+  ArgumentError:     ArgumentError,
+  ExecuteError:      ExecuteError,
+  IOError:           IOError,
+  ArgumentError:     ArgumentError,
   FileNotFoundError: FileNotFoundError,
 }
