@@ -3,7 +3,9 @@ install = require 'gulp-install'
 sass    = require 'gulp-sass'
 cssnext = require 'gulp-cssnext'
 coffee  = require 'gulp-coffee'
-exec    = require('child_process').exec;
+ignore  = require 'gulp-ignore'
+rimraf  = require 'gulp-rimraf'
+exec    = require('child_process').exec
 
 
 gulp.task 'install:npm', () ->
@@ -25,6 +27,18 @@ gulp.task 'compile:coffee', () ->
 
 gulp.task 'compile', ['compile:sass', 'compile:coffee']
 
+gulp.task 'clean', ()->
+  return gulp.src([
+      './src/style/main.css',
+      './src/compat.js',
+      './src/error.js',
+      './src/main.js',
+      './src/test.js',
+      './**/.DS_Store'
+    ], { read: false }) # much faster
+    .pipe ignore('node_modules/**')
+    .pipe ignore('src/node_modules/**')
+    .pipe rimraf()
 
 gulp.task 'run', ['compile:sass', 'compile:coffee'], (callback) ->
   exec 'electron ./src', (err, stdout, stderr) ->
