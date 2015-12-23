@@ -27,6 +27,7 @@ gulp.task 'compile:coffee', () ->
 
 gulp.task 'compile', ['compile:sass', 'compile:coffee']
 
+
 gulp.task 'clean', ()->
   return gulp.src([
       './src/style/main.css',
