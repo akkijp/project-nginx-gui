@@ -13,3 +13,8 @@ class Settings
 
   write: ()->
     # do something
+  read: (path)->
+    # do something
+
+# JSON.parse(json)
+# JSON.stringify(json, null, '    ')
