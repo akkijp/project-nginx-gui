@@ -46,6 +46,9 @@ src/main.js
 src/test.js
 src/test.coffee
 src/error.js
+src/commands.js
+src/tmp.coffee
+src0
 tmp
 release
 cache

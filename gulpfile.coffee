@@ -40,6 +40,8 @@ gulp.task 'clean', ()->
       './src/error.js',
       './src/main.js',
       './src/test.js',
+      './src/tmp.js',
+      './src/commands.js',
       './**/.DS_Store'
       './release/'
     ], { read: false }) # much faster
