@@ -1,4 +1,4 @@
-Error = require './error'
+Error = require './Error'
 ArgumentError = Error.ArgumentError
 
 class Logger

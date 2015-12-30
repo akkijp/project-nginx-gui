@@ -1,7 +1,7 @@
 fs    = require 'fs'
 path  = require 'path'
 os    = require 'os'
-Error = require './error'
+Error = require './Error'
 PlatformUndefinedError = Error.PlatformUndefinedError
 
 ###
