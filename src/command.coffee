@@ -1,8 +1,12 @@
-fs    = require 'fs'
-path  = require 'path'
-os    = require 'os'
-Error = require './Error'
+fs      = require 'fs'
+path    = require 'path'
+os      = require 'os'
+exec    = require('child_process').exec
+Promise = require 'promise'
+Error   = require './Error'
 PlatformUndefinedError = Error.PlatformUndefinedError
+ExecuteError           = Error.ExecuteError
+CommandNotFoundError   = Error.CommandNotFoundError
 
 ###
   command の絶対パスを取得するためのクラス
@@ -59,4 +63,28 @@ class Command
   getCommandPath: (cmd)->
     return @commandsSet[cmd]
 
+  run: (command, callback)->
+    cmds = command.split(/ +?/)
+    cmd_path = @getCommandPath(cmds[0])
+    cmd_args = cmds.slice(1).join(" ")
+    command = "#{cmd_path} #{cmd_args}"
+    # console.log("#{cmd_path} #{cmd_args}")
+    throw new CommandNotFoundError() if !(cmd_path && cmd_path.trim())
+    promise = new Promise (resolve, reject)->
+      child = exec command, (error, stdout, stderr)->
+        if error?
+          reject(stderr)
+          throw new ExecuteError()
+        resolve(stdout)
+        # console.log('stdout: ' + stdout);
+        # console.log('stderr: ' + stderr);
+    promise.nodeify(callback)
+
+
+
 module.exports = Command
+
+
+# command = new Command()
+# command.run "nginx", ()->
+#   console.log("done")
