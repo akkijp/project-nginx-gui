@@ -44,6 +44,6 @@ module.exports = {
   IOError:                IOError,
   ArgumentError:          ArgumentError,
   FileNotFoundError:      FileNotFoundError,
-  PlatformUndefinedError: PlatformUndefinedError,
   CommandNotFoundError:   CommandNotFoundError
+  PlatformUndefinedError: PlatformUndefinedError,
 }
