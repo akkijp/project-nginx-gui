@@ -98,10 +98,10 @@ class Logger
 
 module.exports = Logger
 
-logger = new Logger()
-logger.setLevel(Logger.DEBUG)
-logger.debug("debug")
-logger.success("success")
-logger.info("info")
-logger.warn("warn")
-logger.fatal("fatal")
+# logger = new Logger()
+# logger.setLevel(Logger.DEBUG)
+# logger.debug("debug")
+# logger.success("success")
+# logger.info("info")
+# logger.warn("warn")
+# logger.fatal("fatal")
