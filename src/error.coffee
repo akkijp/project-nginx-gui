@@ -34,11 +34,11 @@ class PlatformUndefinedError extends IOError
     super @message
 
 module.exports = {
-  BaseError:         BaseError,
-  ArgumentError:     ArgumentError,
-  ExecuteError:      ExecuteError,
-  IOError:           IOError,
-  ArgumentError:     ArgumentError,
-  FileNotFoundError: FileNotFoundError,
+  BaseError:              BaseError,
+  ArgumentError:          ArgumentError,
+  ExecuteError:           ExecuteError,
+  IOError:                IOError,
+  ArgumentError:          ArgumentError,
+  FileNotFoundError:      FileNotFoundError,
   PlatformUndefinedError: PlatformUndefinedError
 }
