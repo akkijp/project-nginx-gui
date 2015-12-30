@@ -29,6 +29,10 @@ class FileNotFoundError extends IOError
   constructor: (@message) ->
     super @message
 
+class PlatformUndefinedError extends IOError
+  constructor: (@message) ->
+    super @message
+
 module.exports = {
   BaseError:         BaseError,
   ArgumentError:     ArgumentError,
