@@ -36,12 +36,7 @@ gulp.task 'compile', ['compile:sass', 'compile:coffee']
 gulp.task 'clean', ()->
   return gulp.src([
       './src/style/main.css',
-      './src/compat.js',
-      './src/error.js',
-      './src/main.js',
-      './src/test.js',
-      './src/tmp.js',
-      './src/commands.js',
+      './src/*.js',
       './**/.DS_Store'
       './release/'
     ], { read: false }) # much faster
