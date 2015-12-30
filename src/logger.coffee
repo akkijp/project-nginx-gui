@@ -8,6 +8,17 @@ class Logger
   @WARN    = 3
   @FATAL   = 4
 
+  _black   = '\u001b[30m'
+  _red     = '\u001b[31m'
+  _green   = '\u001b[32m'
+  _yellow  = '\u001b[33m'
+  _blue    = '\u001b[34m'
+  _magenta = '\u001b[35m'
+  _cyan    = '\u001b[36m'
+  _white   = '\u001b[37m'
+
+  _reset   = '\u001b[0m'
+
   constructor: ()->
     @level = Logger.DEBUG
 
@@ -25,22 +36,22 @@ class Logger
   success: (msg)->
     if @level <= Logger.SUCCESS
       formated_date = _getFormattedDate()
-      console.log("#{formated_date} %c#{msg}%c", 'color: green;', '')
+      console.log("#{formated_date} #{_green}#{msg}#{_reset}")
 
   info: (msg)->
     if @level <= Logger.INFO
       formated_date = _getFormattedDate()
-      console.log("#{formated_date} %c#{msg}%c", 'color: #00bcd4;', '')
+      console.log("#{formated_date} #{_cyan}#{msg}#{_reset}")
 
   warn: (msg)->
     if @level <= Logger.WARN
       formated_date = _getFormattedDate()
-      console.log("#{formated_date} %c#{msg}%c", 'color: #ffd700;', '')
+      console.log("#{formated_date} #{_yellow}#{msg}#{_reset}")
 
   fatal: (msg)->
     if @level <= Logger.FATAL
       formated_date = _getFormattedDate()
-      console.error("#{formated_date} %c#{msg}%c", 'color: red;', '')
+      console.error("#{formated_date} #{_red}#{msg}#{_reset}")
 
   log: (level, msg)->
     self = @
@@ -71,11 +82,12 @@ class Logger
   getFormattedDate: ()->
     _getFormattedDate()
 
-logger = new Logger()
-logger.setLevel(1)
-logger.debug("debug")
-logger.fatal("fatal")
-logger.setLevel(5)
-logger.debug("debug")
-logger.warn("warn")
-logger.fatal("fatal")
+module.exports = Logger
+
+# logger = new Logger()
+# logger.setLevel(Logger.DEBUG)
+# logger.debug("debug")
+# logger.success("success")
+# logger.info("info")
+# logger.warn("warn")
+# logger.fatal("fatal")
