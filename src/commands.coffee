@@ -1,10 +1,11 @@
-fs = require 'fs'
-path = require 'path'
-os = require 'os'
+fs    = require 'fs'
+path  = require 'path'
+os    = require 'os'
+Error = require('./error')
+PlatformUndefinedError = Error.PlatformUndefinedError
 
 ###
- @params none
-
+  command の絶対パスを取得するためのクラス
 ###
 class Command
 
@@ -14,9 +15,16 @@ class Command
     @commandsSet = _getCommandsSet(envPaths, PATH_SEPARATOR)
 
   _getSeparator = ->
-    os_type = os.type()
-    return ":" if os_type == "Linux" or os_type == "Darwin"
-    return ";" if os_type == "Windows_NT"
+    platform  = os.type()
+    isLinux   = platform is "Linux"
+    isDarwin  = platform is "Darwin"
+    isWindows = platform is "Windows_NT"
+    if isLinux or isDarwin
+      ":"
+    else if isWindows
+      ";"
+    else
+      throw new PlatformUndefinedError()
 
   _getEnvPathList = (path_separator)->
     env_path_str = process.env.PATH
