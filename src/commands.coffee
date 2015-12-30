@@ -59,8 +59,4 @@ class Command
   getCommandPath: (cmd)->
     return @commandsSet[cmd]
 
-cmd = new Command()
-console.log(cmd.getCommandPath("node"))
-
-# module.exports.getCommandPath = (command) ->
-#   return commands_list[command]
+module.exports = Command
