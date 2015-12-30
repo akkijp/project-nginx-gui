@@ -12,6 +12,8 @@ class FileWriter
   close: ()->
     fs.closeSync(@fd)
 
+module.exports = FileWriter
+
 # fileWriter = new FileWriter("./out.txt")
 # fileWriter.write("aaa")
 # fileWriter.close()
