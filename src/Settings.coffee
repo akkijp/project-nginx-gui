@@ -39,8 +39,9 @@ class Settings
     self = @
     input_text = document.querySelector(selector)
     input_text.addEventListener "keyup", ->
-      self.config[key] = input_text.value
-      callback()
+      value = input_text.value
+      self.config[key] = value
+      callback(value) if callback?
 
 
 module.exports = Settings
