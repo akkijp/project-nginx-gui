@@ -1,4 +1,4 @@
-class LoggerHandler
+class LoggerConsoleHandler
   constructor: ()->
     @console = document.querySelector("#console")
 
@@ -30,4 +30,4 @@ class LoggerHandler
       ss = date.getSeconds()
       "[#{yy} #{months[m]} #{dd} #{HH}:#{mm}:#{ss}]"
 
-module.exports = LoggerHandler
+module.exports = LoggerConsoleHandler
