@@ -25,8 +25,12 @@ app_conf_file  = path.join(conf_path, "settings.json");
 nginx_conf_dir = path.join(conf_path, '/nginx.d/');
 
 
-settings.bind('input[name="port"]', "ngx_port")
-settings.bind('input[name="root"]', "ngx_root")
+settings.bind('input[name="port"]', "ngx_port", (val)->
+  # console.log(val)
+)
+settings.bind('input[name="root"]', "ngx_root", (val)->
+  # console.log(val)
+)
 
 # logger.debug("debug")
 
