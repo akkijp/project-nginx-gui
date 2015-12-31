@@ -6,7 +6,6 @@ class Settings
       "ngx_port": 8080,
       "ngx_root": process.env.HOME,
     }
-    @fileWriter = new FileWriter()
 
   getConfig: (key)->
     return @config[key]
@@ -18,9 +17,10 @@ class Settings
 
   write: ()->
     if @path?
-      fileWriter = new FileWriter()
+      fileWriter = new FileWriter(@path)
       json = JSON.stringify(@config, null, '    ')
       fileWriter.write(json)
+      fileWriter.close()
     else
       throw new Error("Settings: should be set path!")
 
