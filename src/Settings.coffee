@@ -35,6 +35,14 @@ class Settings
     else
       throw new Error("Settings: should be set path!")
 
+  bind: (selector, key, callback)->
+    self = @
+    input_text = document.querySelector(selector)
+    input_text.addEventListener "keyup", ->
+      self.config[key] = input_text.value
+      callback()
+
+
 module.exports = Settings
 
 # JSON.parse(json)
