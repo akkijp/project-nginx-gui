@@ -12,19 +12,19 @@ class LoggerConsoleHandler
 
   debug: (meg) ->
     html = "<div class=\"line\">#{_getFormattedDate()} <span class=\"gray\">#{meg}</span></div>"
-    @console.innerHTML = html
+    @console.innerHTML = @console.innerHTML + html
   success: (meg) ->
     html = "<div class=\"line\">#{_getFormattedDate()} <span class=\"green\">#{meg}</span></div>"
-    @console.innerHTML = html
+    @console.innerHTML = @console.innerHTML + html
   info: (meg) ->
     html = "<div class=\"line\">#{_getFormattedDate()} <span class=\"skyblue\">#{meg}</span></div>"
-    @console.innerHTML = html
+    @console.innerHTML = @console.innerHTML + html
   warn: (meg) ->
     html = "<div class=\"line\">#{_getFormattedDate()} <span class=\"yellow\">#{meg}</span></div>"
-    @console.innerHTML = html
+    @console.innerHTML = @console.innerHTML + html
   fatal: (meg) ->
     html = "<div class=\"line\">#{_getFormattedDate()} <span class=\"red\">#{meg}</span></div>"
-    @console.innerHTML = html
+    @console.innerHTML = @console.innerHTML + html
 
   # private: 整形された日付を返します
   #
