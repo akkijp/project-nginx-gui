@@ -1,3 +1,11 @@
+
+# Public: #console などにログを出力するためのハンドラークラス
+#   このクラスは、Logger class の setHandlerメソッドにセットされ、
+#   Logger class から呼び出されます。
+#
+# * `constructor`    none:
+#
+# Returns `LoggerConsoleHandler Class`.
 class LoggerConsoleHandler
   constructor: ()->
     @console = document.querySelector("#console")
@@ -18,6 +26,12 @@ class LoggerConsoleHandler
     html = "<div class=\"line\">#{_getFormattedDate()} <span class=\"red\">#{meg}</span></div>"
     @console.innerHTML = html
 
+  # private: 整形された日付を返します
+  #
+  # * `date`    (optional) Date Inctance (default: new Date()):
+  #   その時刻でフォーマットされた日付を返します。
+  #
+  # Returns `String`. (example: `[16 Jan 1 3:29:42] debug`)
   _getFormattedDate = do ->
     months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     return (date)->

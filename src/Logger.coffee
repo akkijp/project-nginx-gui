@@ -4,6 +4,13 @@ ArgumentError = Error.ArgumentError
 LoggerConsoleHandler = require './LoggerConsoleHandler'
 logger_console_handler = new LoggerConsoleHandler()
 
+# Public: chrome console にログを出力するためのクラス
+#
+# * `constructor`    none:
+#       @handler に handler を追加することで、
+#       debugメソッドなどが呼ばれた際に、連続して呼び出すことができます。
+#
+# Returns `Logger Class`.
 class Logger
   @DEBUG   = 0
   @SUCCESS = 1
