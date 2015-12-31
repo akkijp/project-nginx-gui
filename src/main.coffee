@@ -9,10 +9,12 @@ Command  = require './Command'
 command  = new Command()
 
 Settings = require './Settings'
-settings = new Settings()
+settings = Settings.getInstance()
 
 Logger   = require './Logger'
 logger   = new Logger()
+
+NginxController = require './NginxController'
 
 # src
 configs_dir   = path.join(__dirname, '/nginx-gui.d/');
@@ -40,7 +42,8 @@ console_scroll_top = ->
   console.scrollTop = console.scrollHeight - console.clientHeight
 
 
-
-
+# logger.debug(settings.getConfig("key"))
+# new NginxController()
+# logger.debug(settings.getConfig("key"))
 
 "none"
