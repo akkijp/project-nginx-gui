@@ -26,19 +26,18 @@ nginx_conf_dir = path.join(conf_path, '/nginx.d/');
 
 
 settings.bind('input[name="port"]', "ngx_port", (val)->
-  # console.log(val)
+  logger.debug(val)
 )
 settings.bind('input[name="root"]', "ngx_root", (val)->
-  # console.log(val)
+  logger.debug(val)
 )
 
-# logger.debug("debug")
-
-
+# for i in [0..20]
+#   logger.debug("debug")
 
 console_scroll_top = ->
-  $psconsole = $("#console");
-  $psconsole.scrollTop($psconsole[0].scrollHeight - $psconsole.height())
+  console = document.querySelector("#console")
+  console.scrollTop = console.scrollHeight - console.clientHeight
 
 
 
