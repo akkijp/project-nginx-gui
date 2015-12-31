@@ -1,4 +1,5 @@
-FileWriter = require './FileWriter'
+FileReader = require './FileReader'
+__         = require 'underscore'
 
 class Settings
   constructor: (@path)->
@@ -6,6 +7,8 @@ class Settings
       "ngx_port": 8080,
       "ngx_root": process.env.HOME,
     }
+    @read() if @path?
+
 
   getConfig: (key)->
     return @config[key]
@@ -24,13 +27,21 @@ class Settings
     else
       throw new Error("Settings: should be set path!")
 
-  read: (path)->
-    # do something
+  read: ()->
+    if @path?
+      fileReader = new FileReader(@path)
+      json = JSON.parse(fileReader.read())
+      @config = __.extend(@config, json)
+    else
+      throw new Error("Settings: should be set path!")
 
 module.exports = Settings
 
 # JSON.parse(json)
 # JSON.stringify(json, null, '    ')
 
-# settings = new Settings("./out.json")
-# settings.write()
+# settings = new Settings()
+# console.log(settings)
+# settings.setPath("out.json")
+# settings.read()
+# console.log(settings)
