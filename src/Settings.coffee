@@ -3,6 +3,8 @@ __         = require 'underscore'
 
 class Settings
   constructor: (@path)->
+    # javascript には、private が存在しないので、呼び出し元から
+    # privateであるかないかを判定している。
     if _getCaller().func == "Settings.getInstance"
       @config = {
         "ngx_port": 8080,
