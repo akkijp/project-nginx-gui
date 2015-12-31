@@ -1,5 +1,4 @@
 fs = require 'fs'
-Error = require './Error'
 
 class FileWriter
   constructor: (@path)->
