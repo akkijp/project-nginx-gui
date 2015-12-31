@@ -1,6 +1,9 @@
 Error = require './Error'
 ArgumentError = Error.ArgumentError
 
+LoggerConsoleHandler = require './LoggerConsoleHandler'
+logger_console_handler = new LoggerConsoleHandler()
+
 class Logger
   @DEBUG   = 0
   @SUCCESS = 1
@@ -22,7 +25,7 @@ class Logger
   constructor: ()->
     @level = Logger.DEBUG
     @isNodejs = if typeof module == "object" then true else false
-    @handler = []
+    @handler = [logger_console_handler]
 
   setLevel: (@level)->
     throw new ArgumentError("shuld be '0 <= level < =4'") if @level < 0 or 4 < @level
