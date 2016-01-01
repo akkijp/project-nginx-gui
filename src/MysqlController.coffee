@@ -1,3 +1,14 @@
+Command = require './Command'
+command = new Command()
 
 class MysqlController
-  constructor: ()->
+  constructor: (@settings_class)->
+    defo = {
+    }
+    # do something
+  start: ()->
+    # do something
+  stop: ()->
+    # do something
+
+module.exports = MysqlController
