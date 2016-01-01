@@ -4,6 +4,7 @@ logger   = require('./Logger').getInstance()
 class NginxController
   constructor: (@settings_class)->
     defo = {
+      "pid_file": ""
       "ngx_port": 8080,
       "ngx_root": process.env.HOME
     }

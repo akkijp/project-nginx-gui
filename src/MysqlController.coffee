@@ -4,6 +4,7 @@ logger   = require('./Logger').getInstance()
 class MysqlController
   constructor: (@settings_class)->
     defo = {
+      "pid_file": ""
     }
     # do something
 
