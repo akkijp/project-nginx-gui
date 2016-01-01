@@ -37,6 +37,20 @@ console_scroll_top = ->
   console = document.querySelector("#console")
   console.scrollTop = console.scrollHeight - console.clientHeight
 
+button = document.querySelector("#nginx_btn")
+do ->
+  isClicked = false
+  button.addEventListener("click", ()->
+    if isClicked
+      nginx_controller.stop()
+      mysql_controller.stop()
+      phpfpm_controller.stop()
+    else
+      nginx_controller.start()
+      mysql_controller.start()
+      phpfpm_controller.start()
+    this
+  )
 
 # logger.debug(settings.getConfig("ngx_port"))
 # new NginxController()

@@ -12,7 +12,7 @@ class MysqlController
     return @instance
 
   start: ()->
-    command.run()
+    # do something
   stop: ()->
     # do something
 

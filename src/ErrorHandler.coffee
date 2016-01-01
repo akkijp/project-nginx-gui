@@ -1,3 +1,5 @@
+logger   = require('./Logger').getInstance()
+
 ###---------------------------
 Error Handler
 -----------------------------###

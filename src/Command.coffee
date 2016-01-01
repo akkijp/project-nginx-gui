@@ -68,6 +68,7 @@ class Command
     return @commandsSet[cmd]
 
   run: (command, callback)->
+    throw new CommandNotFoundError() if !command?
     cmds = command.split(/ +?/)
     cmd_path = @getCommandPath(cmds[0])
     cmd_args = cmds.slice(1).join(" ")
@@ -87,6 +88,6 @@ class Command
 module.exports = Command
 
 
-command = Command.getInstance()
-command.run "nginx", ()->
-  console.log("done")
+# command = Command.getInstance()
+# command.run "nginx", ()->
+#   console.log("done")
