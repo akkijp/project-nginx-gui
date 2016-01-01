@@ -1,5 +1,5 @@
-Command = require './Command'
-command = Command.getInstance()
+command = require('./Command').getInstance()
+logger   = require('./Logger').getInstance()
 
 class MysqlController
   constructor: (@settings_class)->
@@ -12,8 +12,10 @@ class MysqlController
     return @instance
 
   start: ()->
+    logger.debug("MysqlController:start")
     # do something
   stop: ()->
+    logger.debug("MysqlController:stop")
     # do something
 
 module.exports = MysqlController

@@ -1,5 +1,5 @@
-Command = require './Command'
-command = Command.getInstance()
+command = require('./Command').getInstance()
+logger   = require('./Logger').getInstance()
 
 class NginxController
   constructor: (@settings_class)->
@@ -14,8 +14,10 @@ class NginxController
     return @instance
 
   start: ()->
+    logger.debug("NginxController:start")
     # do something
   stop: ()->
+    logger.debug("NginxController:stop")
     # do something
 
 module.exports = NginxController

@@ -49,6 +49,8 @@ do ->
       nginx_controller.start()
       mysql_controller.start()
       phpfpm_controller.start()
+    console_scroll_top() if document?
+    isClicked = !isClicked
     this
   )
 

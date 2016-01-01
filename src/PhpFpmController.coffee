@@ -1,5 +1,5 @@
-Command = require './Command'
-command = Command.getInstance()
+command = require('./Command').getInstance()
+logger   = require('./Logger').getInstance()
 
 class PhpFpmController
   constructor: (@settings_class)->
@@ -12,8 +12,10 @@ class PhpFpmController
     return @instance
 
   start: ()->
+    logger.debug("PhpFpmController:start")
     # do something
   stop: ()->
+    logger.debug("PhpFpmController:stop")
     # do something
 
 module.exports = PhpFpmController
