@@ -5,16 +5,12 @@ os      = remote.require("os")
 
 require './ErrorHandler'
 
-Command  = require './Command'
-command = Command.getInstance()
+settings = require('./Settings').getInstance()
+logger   = require('./Logger').getInstance()
 
-Settings = require './Settings'
-settings = Settings.getInstance()
-
-Logger   = require './Logger'
-logger   = new Logger()
-
-NginxController = require './NginxController'
+nginx_controller  = require('./NginxController').getInstance()
+mysql_controller  = require('./MysqlController').getInstance()
+phpfpm_controller = require('./PhpFpmController').getInstance()
 
 # src
 configs_dir   = path.join(__dirname, '/nginx-gui.d/');
