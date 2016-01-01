@@ -6,10 +6,7 @@ class Settings
     # javascript には、private が存在しないので、呼び出し元から
     # privateであるかないかを判定している。
     if _getCaller().func == "Settings.getInstance"
-      @config = {
-        "ngx_port": 8080,
-        "ngx_root": process.env.HOME,
-      }
+      @config = {}
       @read() if @path?
     else
       throw new Error("Should get an instance from `getInstance` method!")

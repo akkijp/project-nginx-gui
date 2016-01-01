@@ -42,8 +42,8 @@ console_scroll_top = ->
   console.scrollTop = console.scrollHeight - console.clientHeight
 
 
-# logger.debug(settings.getConfig("key"))
+# logger.debug(settings.getConfig("ngx_port"))
 # new NginxController()
-# logger.debug(settings.getConfig("key"))
+# logger.debug(settings.getConfig("ngx_port"))
 
 "none"
