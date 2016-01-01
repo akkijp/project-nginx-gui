@@ -6,7 +6,7 @@ os      = remote.require("os")
 require './ErrorHandler'
 
 Command  = require './Command'
-command  = new Command()
+command = Command.getInstance()
 
 Settings = require './Settings'
 settings = Settings.getInstance()

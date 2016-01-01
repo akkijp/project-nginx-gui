@@ -1,5 +1,5 @@
 Command = require './Command'
-command = new Command()
+command = Command.getInstance()
 
 class MysqlController
   constructor: (@settings_class)->
@@ -7,7 +7,7 @@ class MysqlController
     }
     # do something
   start: ()->
-    # do something
+    command.run()
   stop: ()->
     # do something
 

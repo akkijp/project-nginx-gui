@@ -1,5 +1,5 @@
 Command = require './Command'
-command = new Command()
+command = Command.getInstance()
 
 class NginxController
   constructor: (@settings_class)->
