@@ -1,8 +1,7 @@
 Error = require './Error'
 ArgumentError = Error.ArgumentError
 
-LoggerConsoleHandler = require './LoggerConsoleHandler'
-logger_console_handler = new LoggerConsoleHandler()
+logger_console_handler = require('./LoggerConsoleHandler').getInstance()
 
 # Public: chrome console にログを出力するためのクラス
 #

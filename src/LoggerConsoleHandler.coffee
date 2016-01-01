@@ -10,6 +10,10 @@ class LoggerConsoleHandler
   constructor: ()->
     @console = document.querySelector("#console") if document?
 
+  @getInstance = ->
+    @instance = new LoggerConsoleHandler() if !@instance?
+    return @instance
+
   debug: (meg) ->
     html = "<div class=\"line\">#{_getFormattedDate()} <span class=\"gray\">#{meg}</span></div>"
     @console.innerHTML = @console.innerHTML + html
