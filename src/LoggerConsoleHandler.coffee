@@ -8,7 +8,7 @@
 # Returns `LoggerConsoleHandler Class`.
 class LoggerConsoleHandler
   constructor: ()->
-    @console = document.querySelector("#console")
+    @console = document.querySelector("#console") if document?
 
   debug: (meg) ->
     html = "<div class=\"line\">#{_getFormattedDate()} <span class=\"gray\">#{meg}</span></div>"

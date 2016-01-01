@@ -6,6 +6,11 @@ class MysqlController
     defo = {
     }
     # do something
+
+  @getInstance = ->
+    @instance = new MysqlController() if !@instance?
+    return @instance
+
   start: ()->
     command.run()
   stop: ()->

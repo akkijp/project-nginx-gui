@@ -34,6 +34,10 @@ class Logger
     @isNodejs = if typeof module == "object" then true else false
     @handler = [logger_console_handler]
 
+  @getInstance = ->
+    @instance = new Logger() if !@instance?
+    return @instance
+
   setLevel: (@level)->
     throw new ArgumentError("shuld be '0 <= level < =4'") if @level < 0 or 4 < @level
 

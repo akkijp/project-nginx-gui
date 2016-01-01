@@ -6,6 +6,11 @@ class PhpFpmController
     defo = {
     }
     # do something
+
+  @getInstance = ->
+    @instance = new PhpFpmController() if !@instance?
+    return @instance
+
   start: ()->
     # do something
   stop: ()->
