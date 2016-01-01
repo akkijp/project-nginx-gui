@@ -1,3 +1,0 @@
-
-class ControllerMiddleware
-  # do something
