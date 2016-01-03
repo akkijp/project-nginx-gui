@@ -2,6 +2,7 @@ remote  = require 'remote'
 util    = remote.require("util")
 path    = remote.require("path")
 os      = remote.require("os")
+Promise = require 'promise'
 
 require './ErrorHandler'
 
@@ -27,13 +28,25 @@ do ->
   isClicked = false
   button.addEventListener("click", ()->
     if isClicked
-      nginx_controller.stop()
-      mysql_controller.stop()
-      phpfpm_controller.stop()
+      task1 = new Promise (resolve, reject)->
+        nginx_controller.stop (error)-> if error? then reject() else resolve()
+      task2 = new Promise (resolve, reject)->
+        mysql_controller.stop (error)-> if error? then reject() else resolve()
+      task3 = new Promise (resolve, reject)->
+        phpfpm_controller.stop (error)-> if error? then reject() else resolve()
+      Promise.all([task1, task2, task3]).then(()->
+        logger.debug("done")
+      )
     else
-      nginx_controller.start()
-      mysql_controller.start()
-      phpfpm_controller.start()
+      task1 = new Promise (resolve, reject)->
+        nginx_controller.start (error)-> if error? then reject() else resolve()
+      task2 = new Promise (resolve, reject)->
+        mysql_controller.start (error)-> if error? then reject() else resolve()
+      task3 = new Promise (resolve, reject)->
+        phpfpm_controller.start (error)-> if error? then reject() else resolve()
+      Promise.all([task1, task2, task3]).then(()->
+        logger.debug("done")
+      )
     isClicked = !isClicked
     this
   )
