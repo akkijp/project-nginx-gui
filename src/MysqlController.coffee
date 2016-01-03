@@ -5,7 +5,6 @@ config  = require './config'
 
 class MysqlController
   constructor: ()->
-    @mysql_pid_file = config.mysql_pid_file
 
   @getInstance = ->
     @instance = new MysqlController() if !@instance?
@@ -13,9 +12,10 @@ class MysqlController
 
   start: ()->
     logger.debug("MysqlController:start")
-    # do something
+    command.run("mysql.server start")
+
   stop: ()->
     logger.debug("MysqlController:stop")
-    # do something
+    command.run("mysql.server stop")
 
 module.exports = MysqlController

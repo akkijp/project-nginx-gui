@@ -10,9 +10,10 @@ class PhpFpmController
 
   start: ()->
     logger.debug("PhpFpmController:start")
-    # do something
+    command.run("php56-fpm start")
+
   stop: ()->
     logger.debug("PhpFpmController:stop")
-    # do something
+    command.run("php56-fpm stop")
 
 module.exports = PhpFpmController
