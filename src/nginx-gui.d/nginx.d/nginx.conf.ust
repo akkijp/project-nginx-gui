@@ -23,8 +23,8 @@ http {
     #gzip  on;
 
     server {
-        listen       <%- @port %>;
-        root         <%- @root %>;
+        listen       <%- port %>;
+        root         <%- root %>;
         server_name  localhost;
 
         error_page  404              /404.html;
