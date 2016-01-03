@@ -4,8 +4,10 @@ logger  = require('./Logger').getInstance()
 config  = require './config'
 
 class NginxController
-  constructor: (@settings_class)->
-    # do something
+  constructor: ()->
+    @ngx_pid_file = config.ngx_pid_file
+    @ngx_port     = config.ngx_port
+    @ngx_root     = config.ngx_root
 
   @getInstance = ->
     @instance = new NginxController() if !@instance?

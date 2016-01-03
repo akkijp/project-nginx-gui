@@ -2,10 +2,7 @@ command = require('./Command').getInstance()
 logger   = require('./Logger').getInstance()
 
 class PhpFpmController
-  constructor: (@settings_class)->
-    defo = {
-    }
-    # do something
+  constructor: ()->
 
   @getInstance = ->
     @instance = new PhpFpmController() if !@instance?

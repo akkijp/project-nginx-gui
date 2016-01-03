@@ -1,12 +1,11 @@
 command = require('./Command').getInstance()
 logger   = require('./Logger').getInstance()
 
+config  = require './config'
+
 class MysqlController
-  constructor: (@settings_class)->
-    defo = {
-      "pid_file": ""
-    }
-    # do something
+  constructor: ()->
+    @mysql_pid_file = config.mysql_pid_file
 
   @getInstance = ->
     @instance = new MysqlController() if !@instance?

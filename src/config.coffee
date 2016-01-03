@@ -19,9 +19,9 @@ module.exports = {
   "app_config":   app_config,
   "ngx_configs":  ngx_configs,
 
-  "ngx_pid_file": "",
+  "ngx_pid_file": ngx_pid_file,
   "ngx_port":     8080,
   "ngx_root":     process.env.HOME,
 
-  "mysql_pid_file": "",
+  "mysql_pid_file": mysql_pid_file,
 }
