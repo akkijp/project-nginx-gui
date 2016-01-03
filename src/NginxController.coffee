@@ -6,7 +6,7 @@ command = require('./Command').getInstance()
 logger  = require('./Logger').getInstance()
 FileReader = require('./FileReader')
 
-config  = require './config'
+settings = require('./Settings').getInstance()
 
 class NginxController
   constructor: ()->
@@ -18,8 +18,8 @@ class NginxController
   startBefore: (callback)->
     promise1 = new Promise (resolve, reject)->
       # nginx.conf の構築
-      src  = path.join(config.configs_src,  "nginx.d/nginx.conf.ust")
-      dist = path.join(config.configs_dist, "nginx.d/nginx.conf")
+      src  = path.join(settings.getConfig("configs_src"),  "nginx.d/nginx.conf.ust")
+      dist = path.join(settings.getConfig("configs_dist"), "nginx.d/nginx.conf")
 
       try
         file_reader = new FileReader src
@@ -31,8 +31,8 @@ class NginxController
 
       compiled = __.template(template_src)
       nginx_config = compiled({
-        "port": config.ngx_port,
-        "root": config.ngx_root,
+        "port": settings.getConfig("ngx_port"),
+        "root": settings.getConfig("ngx_root"),
       })
 
       fs.writeFileSync(dist, nginx_config, 'utf8')
@@ -40,10 +40,8 @@ class NginxController
       this
 
     promise2 = new Promise (resolve, reject)->
-      src  = path.join(config.configs_src,  "nginx.d/")
-      dist = path.join(config.configs_dist, "nginx.d/")
-      # todo copy other config files
-      # logger.debug(dist)
+      src  = path.join(settings.getConfig("configs_src"),  "nginx.d/")
+      dist = path.join(settings.getConfig("configs_dist"), "nginx.d/")
       try
         fs.copySync(src, dist)
         resolve()
@@ -62,7 +60,7 @@ class NginxController
     onRejected = (stderr)->
       nginx_status_element.src = "./images/icon_red.png" if document?
       callback(stderr)
-    nginx_config_path= path.join(config.configs_dist, "nginx.d/nginx.conf")
+    nginx_config_path= path.join(settings.getConfig("configs_dist"), "nginx.d/nginx.conf")
     @startBefore ()->
       command.run("nginx -c #{nginx_config_path}")
         .then(onFulfilled, onRejected)

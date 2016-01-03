@@ -1,7 +1,7 @@
 command = require('./Command').getInstance()
 logger   = require('./Logger').getInstance()
 
-config  = require './config'
+settings = require('./Settings').getInstance()
 
 class MysqlController
   constructor: ()->
