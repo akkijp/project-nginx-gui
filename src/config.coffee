@@ -2,14 +2,16 @@ path    = require("path")
 os      = require("os")
 
 # src
-configs_src    = path.join(__dirname, '/nginx-gui.d/');
+configs_src    = path.join(__dirname, '/nginx-gui.d/')
 
 # dist
-# configs_dist = path.join(process.env.HOME, '/.nginx-gui.d/');
-configs_dist = path.join(os.tmpDir(), '/.nginx-gui.d/');
-app_config   = path.join(configs_dist, "settings.json");
-ngx_configs  = path.join(configs_dist, '/nginx.d/');
+# configs_dist = path.join(process.env.HOME, '/.nginx-gui.d/')
+configs_dist = path.join(os.tmpDir(), '/.nginx-gui.d/')
+app_config   = path.join(configs_dist, "settings.json")
+ngx_configs  = path.join(configs_dist, '/nginx.d/')
 
+ngx_pid_file   = path.join(configs_dist, "nginx.pid")
+mysql_pid_file = path.join(configs_dist, "mysql.pid")
 
 module.exports = {
   "configs_src":  configs_src,
