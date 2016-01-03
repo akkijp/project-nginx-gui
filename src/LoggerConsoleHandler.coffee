@@ -14,21 +14,30 @@ class LoggerConsoleHandler
     @instance = new LoggerConsoleHandler() if !@instance?
     return @instance
 
+  console_scroll_top = ->
+    console = document.querySelector("#console") if document?
+    console.scrollTop = console.scrollHeight - console.clientHeight if document?
+
   debug: (meg) ->
     html = "<div class=\"line\">#{_getFormattedDate()} <span class=\"gray\">#{meg}</span></div>"
     @console.innerHTML = @console.innerHTML + html
+    console_scroll_top()
   success: (meg) ->
     html = "<div class=\"line\">#{_getFormattedDate()} <span class=\"green\">#{meg}</span></div>"
     @console.innerHTML = @console.innerHTML + html
+    console_scroll_top()
   info: (meg) ->
     html = "<div class=\"line\">#{_getFormattedDate()} <span class=\"skyblue\">#{meg}</span></div>"
     @console.innerHTML = @console.innerHTML + html
+    console_scroll_top()
   warn: (meg) ->
     html = "<div class=\"line\">#{_getFormattedDate()} <span class=\"yellow\">#{meg}</span></div>"
     @console.innerHTML = @console.innerHTML + html
+    console_scroll_top()
   fatal: (meg) ->
     html = "<div class=\"line\">#{_getFormattedDate()} <span class=\"red\">#{meg}</span></div>"
     @console.innerHTML = @console.innerHTML + html
+    console_scroll_top()
 
   # private: 整形された日付を返します
   #

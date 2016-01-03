@@ -22,10 +22,6 @@ settings.bind('input[name="root"]', "ngx_root", (val)->
 # for i in [0..20]
 #   logger.debug("debug")
 
-console_scroll_top = ->
-  console = document.querySelector("#console")
-  console.scrollTop = console.scrollHeight - console.clientHeight
-
 button = document.querySelector("#nginx_btn")
 do ->
   isClicked = false
@@ -38,7 +34,6 @@ do ->
       nginx_controller.start()
       mysql_controller.start()
       phpfpm_controller.start()
-    console_scroll_top() if document?
     isClicked = !isClicked
     this
   )
