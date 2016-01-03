@@ -4,6 +4,7 @@ os      = require 'os'
 exec    = require('child_process').exec
 Promise = require 'promise'
 Error   = require './Error'
+logger   = require('./Logger').getInstance()
 PlatformUndefinedError = Error.PlatformUndefinedError
 ExecuteError           = Error.ExecuteError
 CommandNotFoundError   = Error.CommandNotFoundError
@@ -15,8 +16,18 @@ class Command
 
   constructor: ()->
     PATH_SEPARATOR = _getSeparator()
-    envPaths = _getEnvPathList(PATH_SEPARATOR).reverse()
+    env_path_list = _getEnvPathList(PATH_SEPARATOR).reverse()
+    envPaths = env_path_list.concat(default_paths)
     @commandsSet = _getCommandsSet(envPaths, PATH_SEPARATOR)
+
+  default_paths = [
+    "/usr/local/sbin"
+    "/usr/local/bin"
+    "/usr/bin"
+    "/bin"
+    "/usr/sbin"
+    "/sbin"
+  ]
 
   @getInstance = ->
     @instance = new Command() if !@instance?
