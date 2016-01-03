@@ -15,7 +15,7 @@ class NginxController
     @instance = new NginxController() if !@instance?
     return @instance
 
-  startBefore: ()->
+  startBefore: (callback)->
     logger.debug("NginxController:start")
 
     promise1 = new Promise (resolve, reject)->
@@ -45,14 +45,20 @@ class NginxController
       src  = path.join(config.configs_src,  "nginx.d/")
       dist = path.join(config.configs_dist, "nginx.d/")
       # todo copy other config files
-      resolve()
+      logger.debug(dist)
+      try
+        fs.copySync(src, dist)
+        resolve()
+      catch error
+        reject(error)
+
       this
-    Promise.all([promise1, promise2]).nodeify ()->
-      logger.debug("done")
-      this
+    Promise.all([promise1, promise2]).nodeify(callback)
+    this
 
   start: ()->
-    @startBefore()
+    @startBefore ()->
+      logger.debug("debug")
 
 
     #
