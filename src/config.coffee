@@ -1,5 +1,5 @@
-path    = remote.require("path")
-os      = remote.require("os")
+path    = require("path")
+os      = require("os")
 
 # src
 configs_src    = path.join(__dirname, '/nginx-gui.d/');
