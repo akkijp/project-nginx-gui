@@ -12,17 +12,6 @@ nginx_controller  = require('./NginxController').getInstance()
 mysql_controller  = require('./MysqlController').getInstance()
 phpfpm_controller = require('./PhpFpmController').getInstance()
 
-# src
-configs_dir   = path.join(__dirname, '/nginx-gui.d/');
-
-# dist
-# conf_path = path.join(process.env.HOME, '/.nginx-gui.d/');
-conf_path = path.join(os.tmpDir(), '/.nginx-gui.d/');
-
-app_conf_file  = path.join(conf_path, "settings.json");
-nginx_conf_dir = path.join(conf_path, '/nginx.d/');
-
-
 settings.bind('input[name="port"]', "ngx_port", (val)->
   logger.debug(val)
 )

@@ -1,3 +1,0 @@
-
-class BeforeMiddleware
-  # do something

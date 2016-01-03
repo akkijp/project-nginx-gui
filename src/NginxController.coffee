@@ -1,13 +1,10 @@
 command = require('./Command').getInstance()
-logger   = require('./Logger').getInstance()
+logger  = require('./Logger').getInstance()
+
+config  = require './config'
 
 class NginxController
   constructor: (@settings_class)->
-    defo = {
-      "pid_file": ""
-      "ngx_port": 8080,
-      "ngx_root": process.env.HOME
-    }
     # do something
 
   @getInstance = ->
