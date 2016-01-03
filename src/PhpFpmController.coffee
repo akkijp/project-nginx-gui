@@ -1,6 +1,8 @@
 command = require('./Command').getInstance()
 logger   = require('./Logger').getInstance()
 
+config  = require './config'
+
 class PhpFpmController
   constructor: ()->
 
@@ -8,12 +10,24 @@ class PhpFpmController
     @instance = new PhpFpmController() if !@instance?
     return @instance
 
-  start: ()->
-    logger.debug("PhpFpmController:start")
+  start: (callback)->
+    onFulfilled = (stdout)->
+      logger.debug("PhpFpmController:start")
+      callback()
+    onRejected = (stderr)->
+      callback(stderr)
     command.run("php56-fpm start")
+      .then(onFulfilled, onRejected)
+    this
 
-  stop: ()->
-    logger.debug("PhpFpmController:stop")
+  stop: (callback)->
+    onFulfilled = (stdout)->
+      logger.debug("PhpFpmController:stop")
+      callback()
+    onRejected = (stderr)->
+      callback(stderr)
     command.run("php56-fpm stop")
+      .then(onFulfilled, onRejected)
+    this
 
 module.exports = PhpFpmController

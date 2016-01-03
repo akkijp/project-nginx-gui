@@ -10,12 +10,24 @@ class MysqlController
     @instance = new MysqlController() if !@instance?
     return @instance
 
-  start: ()->
-    logger.debug("MysqlController:start")
+  start: (callback)->
+    onFulfilled = (stdout)->
+      logger.debug("MysqlController:start")
+      callback()
+    onRejected = (stderr)->
+      callback(stderr)
     command.run("mysql.server start")
+      .then(onFulfilled, onRejected)
+    this
 
-  stop: ()->
-    logger.debug("MysqlController:stop")
+  stop: (callback)->
+    onFulfilled = (stdout)->
+      logger.debug("MysqlController:stop")
+      callback()
+    onRejected = (stderr)->
+      callback(stderr)
     command.run("mysql.server stop")
+      .then(onFulfilled, onRejected)
+    this
 
 module.exports = MysqlController

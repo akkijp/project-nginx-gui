@@ -53,20 +53,26 @@ class NginxController
       this
     Promise.all([promise1, promise2]).nodeify(callback)
 
-  start: ()->
-    logger.debug("NginxController:start")
+  start: (callback)->
+    onFulfilled = (stdout)->
+      logger.debug("NginxController:start")
+      callback()
+    onRejected = (stderr)->
+      callback(stderr)
     nginx_config_path= path.join(config.configs_dist, "nginx.d/nginx.conf")
     @startBefore ()->
-      command.run("nginx -c #{nginx_config_path}", ()->
-        logger.debug("NginxController:start:done")
-      )
+      command.run("nginx -c #{nginx_config_path}")
+        .then(onFulfilled, onRejected)
     this
 
-  stop: ()->
-    logger.debug("NginxController:stop")
+  stop: (callback)->
+    onFulfilled = (stdout)->
+      logger.debug("NginxController:stop")
+      callback()
+    onRejected = (stderr)->
+      callback(stderr)
     command.run("nginx -s stop")
-    logger.debug("NginxController:stop:done")
-    # do something
+      .then(onFulfilled, onRejected)
     this
 
 module.exports = NginxController

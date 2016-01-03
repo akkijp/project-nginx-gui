@@ -94,7 +94,7 @@ class Command
         resolve(stdout)
         # console.log('stdout: ' + stdout);
         # console.log('stderr: ' + stderr);
-    promise.nodeify(callback)
+    return promise
 
 module.exports = Command
 
