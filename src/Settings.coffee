@@ -1,9 +1,13 @@
+fs         = require 'fs'
+config     = require './config'
 FileReader = require './FileReader'
+FileWriter = require './FileWriter'
 __         = require 'underscore'
 
 class Settings
   constructor: (@path)->
-    @config = {}
+    @config = config
+    @path = config.app_config
     @read() if @path?
 
   @getInstance = ->
@@ -16,7 +20,7 @@ class Settings
   setConfig: (key, value)->
     @config[key] = value
 
-  setPath: (@path)->
+  setSaveToPath: (@path)->
 
   write: ()->
     if @path?
@@ -29,6 +33,10 @@ class Settings
 
   read: ()->
     if @path?
+      try
+        fs.accessSync(@path, fs.R_OK)
+      catch err
+        return err
       fileReader = new FileReader(@path)
       json = JSON.parse(fileReader.read())
       @config = __.extend(@config, json)
@@ -38,6 +46,7 @@ class Settings
   bind: (selector, key, callback)->
     self = @
     input_text = document.querySelector(selector)
+    input_text.value = self.config[key] if self.config[key]?
     input_text.addEventListener "keyup", ->
       value = input_text.value
       self.config[key] = value

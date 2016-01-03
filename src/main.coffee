@@ -28,6 +28,14 @@ do ->
   isClicked = false
   button.addEventListener("click", ()->
     if isClicked
+      onFulfilled = ()->
+        logger.debug("done")
+        button.classList.add("btn-primary")
+        button.classList.remove("btn-danger")
+        button.classList.remove("avoid-clicks")
+        button.classList.remove("active")
+        button.innerHTML = "Server Start"
+
       button.classList.add("avoid-clicks")
       button.classList.add("active")
       task1 = new Promise (resolve, reject)->
@@ -36,15 +44,16 @@ do ->
         mysql_controller.stop (error)-> if error? then reject() else resolve()
       task3 = new Promise (resolve, reject)->
         phpfpm_controller.stop (error)-> if error? then reject() else resolve()
-      Promise.all([task1, task2, task3]).then(()->
+      Promise.all([task1, task2, task3]).then(onFulfilled, onFulfilled)
+    else
+      onFulfilled = ()->
         logger.debug("done")
-        button.classList.add("btn-primary")
-        button.classList.remove("btn-danger")
+        button.classList.add("btn-danger")
+        button.classList.remove("btn-primary")
         button.classList.remove("avoid-clicks")
         button.classList.remove("active")
-        button.innerHTML = "Server Start"
-      )
-    else
+        button.innerHTML = "Server Stop"
+
       button.classList.add("avoid-clicks")
       button.classList.add("active")
       task1 = new Promise (resolve, reject)->
@@ -53,14 +62,7 @@ do ->
         mysql_controller.start (error)-> if error? then reject() else resolve()
       task3 = new Promise (resolve, reject)->
         phpfpm_controller.start (error)-> if error? then reject() else resolve()
-      Promise.all([task1, task2, task3]).then(()->
-        logger.debug("done")
-        button.classList.add("btn-danger")
-        button.classList.remove("btn-primary")
-        button.classList.remove("avoid-clicks")
-        button.classList.remove("active")
-        button.innerHTML = "Server Stop"
-      )
+      Promise.all([task1, task2, task3]).then(onFulfilled, onFulfilled)
     isClicked = !isClicked
     this
   )
