@@ -43,7 +43,7 @@ class NginxController
       src  = path.join(config.configs_src,  "nginx.d/")
       dist = path.join(config.configs_dist, "nginx.d/")
       # todo copy other config files
-      logger.debug(dist)
+      # logger.debug(dist)
       try
         fs.copySync(src, dist)
         resolve()
@@ -54,10 +54,13 @@ class NginxController
     Promise.all([promise1, promise2]).nodeify(callback)
 
   start: (callback)->
+    nginx_status_element = document.querySelector("#nginx_status img") if document?
     onFulfilled = (stdout)->
-      logger.debug("NginxController:start")
+      logger.success("NginxController:start")
+      nginx_status_element.src = "./images/icon_green.png" if document?
       callback()
     onRejected = (stderr)->
+      nginx_status_element.src = "./images/icon_red.png" if document?
       callback(stderr)
     nginx_config_path= path.join(config.configs_dist, "nginx.d/nginx.conf")
     @startBefore ()->
@@ -66,10 +69,13 @@ class NginxController
     this
 
   stop: (callback)->
+    nginx_status_element = document.querySelector("#nginx_status img") if document?
     onFulfilled = (stdout)->
-      logger.debug("NginxController:stop")
+      logger.success("NginxController:stop")
+      nginx_status_element.src = "./images/icon_empty.png" if document?
       callback()
     onRejected = (stderr)->
+      nginx_status_element.src = "./images/icon_red.png" if document?
       callback(stderr)
     command.run("nginx -s stop")
       .then(onFulfilled, onRejected)

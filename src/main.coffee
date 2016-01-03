@@ -28,6 +28,8 @@ do ->
   isClicked = false
   button.addEventListener("click", ()->
     if isClicked
+      button.classList.add("avoid-clicks")
+      button.classList.add("active")
       task1 = new Promise (resolve, reject)->
         nginx_controller.stop (error)-> if error? then reject() else resolve()
       task2 = new Promise (resolve, reject)->
@@ -36,8 +38,15 @@ do ->
         phpfpm_controller.stop (error)-> if error? then reject() else resolve()
       Promise.all([task1, task2, task3]).then(()->
         logger.debug("done")
+        button.classList.add("btn-primary")
+        button.classList.remove("btn-danger")
+        button.classList.remove("avoid-clicks")
+        button.classList.remove("active")
+        button.innerHTML = "Server Start"
       )
     else
+      button.classList.add("avoid-clicks")
+      button.classList.add("active")
       task1 = new Promise (resolve, reject)->
         nginx_controller.start (error)-> if error? then reject() else resolve()
       task2 = new Promise (resolve, reject)->
@@ -46,6 +55,11 @@ do ->
         phpfpm_controller.start (error)-> if error? then reject() else resolve()
       Promise.all([task1, task2, task3]).then(()->
         logger.debug("done")
+        button.classList.add("btn-danger")
+        button.classList.remove("btn-primary")
+        button.classList.remove("avoid-clicks")
+        button.classList.remove("active")
+        button.innerHTML = "Server Stop"
       )
     isClicked = !isClicked
     this
