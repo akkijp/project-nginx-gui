@@ -16,8 +16,6 @@ class NginxController
     return @instance
 
   startBefore: (callback)->
-    logger.debug("NginxController:start")
-
     promise1 = new Promise (resolve, reject)->
       # nginx.conf の構築
       src  = path.join(config.configs_src,  "nginx.d/nginx.conf.ust")
@@ -54,18 +52,20 @@ class NginxController
 
       this
     Promise.all([promise1, promise2]).nodeify(callback)
-    this
 
   start: ()->
+    logger.debug("NginxController:start")
+    nginx_config_path= path.join(config.configs_dist, "nginx.d/nginx.conf")
     @startBefore ()->
-      logger.debug("debug")
-
-
-    #
-    # do something
+      command.run("nginx -c #{nginx_config_path}", ()->
+        logger.debug("NginxController:start:done")
+      )
     this
+
   stop: ()->
     logger.debug("NginxController:stop")
+    command.run("nginx -s stop")
+    logger.debug("NginxController:stop:done")
     # do something
     this
 
