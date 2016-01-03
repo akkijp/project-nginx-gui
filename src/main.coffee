@@ -14,10 +14,10 @@ mysql_controller  = require('./MysqlController').getInstance()
 phpfpm_controller = require('./PhpFpmController').getInstance()
 
 settings.bind('input[name="port"]', "ngx_port", (val)->
-  logger.debug(val)
+  settings.write()
 )
 settings.bind('input[name="root"]', "ngx_root", (val)->
-  logger.debug(val)
+  settings.write()
 )
 
 # for i in [0..20]
