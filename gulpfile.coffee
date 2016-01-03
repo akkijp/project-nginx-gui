@@ -6,6 +6,7 @@ coffee   = require 'gulp-coffee'
 ignore   = require 'gulp-ignore'
 rimraf   = require 'gulp-rimraf'
 symdest  = require 'gulp-symdest'
+uglify   = require 'gulp-uglify'
 # electron = require 'gulp-atom-electron'
 electron = require 'gulp-electron'
 exec     = require('child_process').exec
@@ -28,6 +29,7 @@ gulp.task 'compile:sass', () ->
 gulp.task 'compile:coffee', () ->
   gulp.src './src/**/*.coffee'
     .pipe coffee()
+    # .pipe uglify()
     .pipe gulp.dest('src/')
 
 gulp.task 'compile', ['compile:sass', 'compile:coffee']
