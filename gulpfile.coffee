@@ -29,7 +29,7 @@ gulp.task 'compile:sass', () ->
 gulp.task 'compile:coffee', () ->
   gulp.src './src/**/*.coffee'
     .pipe coffee()
-    # .pipe uglify()
+    .pipe uglify()
     .pipe gulp.dest('src/')
 
 gulp.task 'compile', ['compile:sass', 'compile:coffee']
