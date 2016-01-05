@@ -8,7 +8,7 @@ install
 -------
 
 Get Start
-※事前に、brewで、nginx, php56-fpm, mysqlのインストールが必要です。
+※事前に、brewで、nginx, php56-fpm, mysqlのインストールが必要です。  
 [http://brew.sh/index_ja.html](http://brew.sh/index_ja.html) より、インストールをお願いします。
 
 ```sh
