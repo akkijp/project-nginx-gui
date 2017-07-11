@@ -1,4 +1,4 @@
-# nginx-gui
+# :hankey::zzz: nginx-gui
 
 ![Hello nginx-gui](https://raw.github.com/wiki/k4zzk/nginx-gui/images/20151223/img_01.png)
 ![Hello nginx-gui](https://raw.github.com/wiki/k4zzk/nginx-gui/images/20151223/img_02.png)
